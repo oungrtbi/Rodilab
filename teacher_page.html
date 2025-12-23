@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로디쌤 - RODILAB</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fafafa;
+        }
+
+        /* 네비게이션 */
+        nav {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #307B52;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu > li {
+            position: relative;
+        }
+
+        .nav-menu > li > a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu > li > a:hover {
+            color: #307B52;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            min-width: 180px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+        }
+
+        .dropdown li {
+            list-style: none;
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.7rem 1.5rem;
+            color: #555;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .dropdown a:hover {
+            background: #f0f9f4;
+            color: #307B52;
+        }
+
+        .nav-menu > li:hover .dropdown {
+            display: block;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #307B52 0%, #55A759 100%);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(48, 123, 82, 0.3);
+        }
+
+        /* 페이지 헤더 */
+        .page-header {
+            background: linear-gradient(135deg, #307B52 0%, #55A759 100%);
+            color: white;
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+        }
+
+        /* 섹션 */
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* 로디쌤 소개 섹션 */
+        .teacher-intro {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+            margin-bottom: 5rem;
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(48, 123, 82, 0.1);
+        }
+
+        .teacher-image {
+            width: 450px;
+            height: 450px;
+            background: linear-gradient(135deg, #307B52 0%, #55A759 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+            text-align: center;
+            flex-shrink: 0;
+            box-shadow: 0 8px 24px rgba(48, 123, 82, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .teacher-image::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        }
+
+        .teacher-text {
+            flex: 1;
+        }
+
+        .teacher-text h2 {
+            font-size: 2.2rem;
+            color: #307B52;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .teacher-text p {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: #555;
+            margin-bottom: 1.2rem;
+        }
+
+        .teacher-text .highlight {
+            color: #307B52;
+            font-weight: 600;
+            background: linear-gradient(120deg, rgba(48, 123, 82, 0.1) 0%, rgba(48, 123, 82, 0.1) 100%);
+            padding: 0 0.3rem;
+            border-radius: 4px;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, rgba(48, 123, 82, 0.05) 0%, rgba(85, 167, 89, 0.05) 100%);
+            border-radius: 10px;
+            border-left: 3px solid #307B52;
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+        }
+
+        .feature-text {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        /* 선발 프로세스 타이틀 */
+        .process-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .process-header h2 {
+            font-size: 2.5rem;
+            color: #307B52;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .process-header p {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        /* 프로세스 플로우 */
+        .process-flow {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 5rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(48, 123, 82, 0.1);
+        }
+
+        .process-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-circle {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #307B52 0%, #55A759 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            box-shadow: 0 6px 20px rgba(48, 123, 82, 0.3);
+            transition: transform 0.3s;
+        }
+
+        .process-step:hover .step-circle {
+            transform: scale(1.1);
+        }
+
+        .step-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-subtitle {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .arrow {
+            font-size: 2rem;
+            color: #307B52;
+            flex-shrink: 0;
+        }
+
+        /* 세부 프로세스 카드 */
+        .detail-card {
+            margin-bottom: 4rem;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(48, 123, 82, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .detail-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(48, 123, 82, 0.15);
+        }
+
+        .detail-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .detail-card:nth-child(even) .detail-content {
+            flex-direction: row-reverse;
+        }
+
+        .detail-image {
+            width: 500px;
+            height: 400px;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, #307B52 0%, #55A759 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .detail-image::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.03) 10px,
+                rgba(255,255,255,0.03) 20px
+            );
+        }
+
+        .step-badge {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            background: white;
+            color: #307B52;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .detail-text {
+            flex: 1;
+            padding: 3rem;
+        }
+
+        .detail-text h3 {
+            font-size: 2rem;
+            color: #307B52;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .detail-text p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 2rem;
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            padding: 0.8rem 0;
+            padding-left: 2rem;
+            position: relative;
+            color: #555;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .checklist li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #307B52;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* 푸터 */
+        footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            color: #ccc;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+        }
+
+        .footer-section h3 {
+            color: #55A759;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #999;
+            text-decoration: none;
+            line-height: 2;
+        }
+
+        .footer-section a:hover {
+            color: #55A759;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+            color: #666;
+        }
+
+        /* 반응형 */
+        @media (max-width: 968px) {
+            .teacher-intro {
+                flex-direction: column;
+            }
+
+            .teacher-image {
+                width: 100%;
+                height: 350px;
+            }
+
+            .feature-list {
+                grid-template-columns: 1fr;
+            }
+
+            .process-flow {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .arrow {
+                transform: rotate(90deg);
+            }
+
+            .detail-content,
+            .detail-card:nth-child(even) .detail-content {
+                flex-direction: column !important;
+            }
+
+            .detail-image {
+                width: 100%;
+                height: 300px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 네비게이션 -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">RODILAB</div>
+            <ul class="nav-menu">
+                <li>
+                    <a href="/brand_page.html">로디랩 소개</a>
+                    <ul class="dropdown">
+                        <li><a href="/brand_page.html">브랜드 소개</a></li>
+                        <li><a href="/activities_page.html">활동 내역</a></li>
+                        <li><a href="/teacher_page.html">로디쌤</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/package_page.html">패키지 소개</a>
+                    <ul class="dropdown">
+                        <li><a href="/package_page.html">패키지 소개</a></li>
+                        <li><a href="/contents_page.html">구성 소개</a></li>
+                        <li><a href="/enterprise_page.html">기업 전용</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/review_page.html">리뷰</a>
+                    <ul class="dropdown">
+                        <li><a href="/review_page.html">서비스 리뷰</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <a href="#" class="cta-button" onclick="openModal(); return false;">상담 신청</a>
+        </div>
+    </nav>
+    
+    <!-- 페이지 헤더 -->
+    <div class="page-header">
+        <h1>로디쌤</h1>
+        <p>시니어의 디지털 세상을 여는 청년 멘토</p>
+    </div>
+
+    <!-- 메인 컨텐츠 -->
+    <div class="section">
+        <!-- 로디쌤 소개 -->
+        <div class="teacher-intro">
+            <div class="teacher-image">
+                [로디쌤 교육 활동<br>현장 사진]
+            </div>
+            <div class="teacher-text">
+                <h2>로디쌤이란?</h2>
+                <p>
+                    로디쌤은 <span class="highlight">시니어 디지털 교육을 전담하는 대학생 튜터</span>입니다. 
+                    가천대학교 인액터스 소속 청년들로 구성되어 있으며, 부모님 눈높이에서 친근하고 인내심 있게 교육합니다.
+                </p>
+                <p>
+                    단순히 스마트폰 사용법을 가르치는 것이 아니라, 시니어 세대가 디지털 시대에서 자신감을 갖고 
+                    자녀·손주와 더 가깝게 소통할 수 있도록 돕는 <span class="highlight">디지털 조력자이자 정서적 지원자</span>입니다.
+                </p>
+                <p>
+                    "할머니, 이거 한 번 더 설명해드릴게요!" 같은 시선에서 무한 반복 설명도 OK! 
+                    기술 교육을 넘어 따뜻한 대화와 공감으로 외로움까지 덜어드립니다.
+                </p>
+
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon">👨‍🏫</div>
+                        <div class="feature-text">쉽고 재미있게 가르치는 교육자</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🤝</div>
+                        <div class="feature-text">인내심 있게 반복하는 멘토</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">💚</div>
+                        <div class="feature-text">공감하고 이해하는 청년 친구</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">📚</div>
+                        <div class="feature-text">학습지로 복습을 돕는 파트너</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 선발 프로세스 헤더 -->
+        <div class="process-header">
+            <h2>로디쌤은 이렇게 선발됩니다!</h2>
+            <p>3단계 체계적 교육 과정을 거쳐 전문 시니어 교육자로 성장합니다</p>
+        </div>
+
+        <!-- 프로세스 플로우 -->
+        <div class="process-flow">
+            <div class="process-step">
+                <div class="step-circle">1</div>
+                <div class="step-title">사전 교육</div>
+                <div class="step-subtitle">시니어 이해 & 교육법 학습</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="process-step">
+                <div class="step-circle">2</div>
+                <div class="step-title">실전 테스트</div>
+                <div class="step-subtitle">모의 수업 & 역량 평가</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="process-step">
+                <div class="step-circle">3</div>
+                <div class="step-title">실전 투입</div>
+                <div class="step-subtitle">현장 교육 & 지속 성장</div>
+            </div>
+        </div>
+
+        <!-- 세부 프로세스 1: 사전 교육 -->
+        <div class="detail-card">
+            <div class="detail-content">
+                <div class="detail-image">
+                    <div class="step-badge">STEP 1</div>
+                    [사전 교육 현장 사진]<br>
+                    교육생들이 시니어 심리를<br>
+                    배우는 모습
+                </div>
+                <div class="detail-text">
+                    <h3>사전 교육</h3>
+                    <p>
+                        로디쌤이 되기 위한 첫 걸음! 시니어 세대를 이해하고 효과적으로 소통하는 방법을 배웁니다. 
+                        단순한 기술 전달이 아닌, <strong>진정한 교감</strong>을 나누는 법을 익힙니다.
+                    </p>
+                    <ul class="checklist">
+                        <li><strong>시니어 심리 이해 교육</strong> - 디지털 격차가 주는 심리적 어려움, 학습 속도와 기억력 특성 이해</li>
+                        <li><strong>효과적인 소통 방법</strong> - 눈높이 맞춤 설명법, 반복 교육 노하우, 긍정적 피드백 기술</li>
+                        <li><strong>디지털 교육 커리큘럼 숙지</strong> - 스마트폰 기초부터 고급 기능까지 단계별 학습 내용 파악</li>
+                        <li><strong>학습지 제작 및 활용법</strong> - 시니어 친화적 학습지 디자인, 복습 자료 제공 방법</li>
+                        <li><strong>교육 시나리오 실습</strong> - 다양한 상황별 대처법, 질문 응대 시뮬레이션</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 세부 프로세스 2: 실전 테스트 -->
+        <div class="detail-card">
+            <div class="detail-content">
+                <div class="detail-image">
+                    <div class="step-badge">STEP 2</div>
+                    [실전 테스트 현장 사진]<br>
+                    모의 수업을 진행하며<br>
+                    피드백 받는 모습
+                </div>
+                <div class="detail-text">
+                    <h3>실전 테스트</h3>
+                    <p>
+                        배운 내용을 실제로 적용해보는 단계! 모의 수업을 통해 교육 역량을 점검하고, 
+                        선배 로디쌤의 <strong>1:1 맞춤 피드백</strong>으로 실력을 한층 더 끌어올립니다.
+                    </p>
+                    <ul class="checklist">
+                        <li><strong>모의 교육 진행</strong> - 실제 수업 환경을 재현한 모의 수업 실습 (30분~1시간)</li>
+                        <li><strong>수업 영상 촬영 및 피드백</strong> - 자신의 수업을 객관적으로 분석하고 개선점 파악</li>
+                        <li><strong>선배 로디쌤 멘토링</strong> - 현장 경험이 풍부한 선배의 생생한 노하우 전수</li>
+                        <li><strong>교육 역량 평가</strong> - 소통 능력, 교육 기술, 공감 능력 등 종합 평가</li>
+                        <li><strong>개선 사항 보완</strong> - 평가 결과를 바탕으로 부족한 부분 집중 보강</li>
+                        <li><strong>최종 자격 심사</strong> - 로디쌤으로서 준비가 완료되었는지 최종 검증</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 세부 프로세스 3: 실전 투입 -->
+        <div class="detail-card">
+            <div class="detail-content">
+                <div class="detail-image">
+                    <div class="step-badge">STEP 3</div>
+                    [실전 투입 현장 사진]<br>
+                    복지관에서 어르신들과<br>
+                    함께하는 수업 모습
+                </div>
+                <div class="detail-text">
+                    <h3>실전 투입</h3>
+                    <p>
+                        드디어 진짜 로디쌤으로 활동을 시작하는 단계! 복지관, 경로당, 가정을 직접 방문하며 
+                        시니어 분들께 <strong>실질적인 도움</strong>을 드립니다. 끝이 아닌 계속되는 성장의 시작입니다.
+                    </p>
+                    <ul class="checklist">
+                        <li><strong>복지관·경로당 현장 교육</strong> - 성남 지역 복지관, 경로당에서 소그룹 수업 진행</li>
+                        <li><strong>가정 방문 1:1 교육</strong> - 이동이 어려운 분들을 위한 찾아가는 맞춤 교육</li>
+                        <li><strong>교육 성과 지속 모니터링</strong> - 수강생 만족도 조사, 학습 성과 추적 관리</li>
+                        <li><strong>정기 역량 강화 워크샵</strong> - 월 1회 정기 모임으로 노하우 공유 및 스킬 업그레이드</li>
+                        <li><strong>경험 공유 및 성장</strong> - 로디쌤들의 생생한 현장 경험 공유, 어려움 함께 해결</li>
+                        <li><strong>전문성 지속 개발</strong> - 새로운 디지털 트렌드 학습, 교육 방법론 업데이트</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA 섹션 -->
+        <div style="margin-top: 5rem; padding: 3rem; background: linear-gradient(135deg, #307B52 0%, #55A759 100%); border-radius: 20px; text-align: center; color: white;">
+            <h3 style="font-size: 2rem; margin-bottom: 1rem;">로디쌤이 되고 싶으신가요?</h3>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.95;">
+                시니어 세대에게 의미있는 변화를 선물하고, 함께 성장하는 청년이 되어보세요!
+            </p>
+            <a href="index.html#contact" style="display: inline-block; background: white; color: #307B52; padding: 1rem 2.5rem; border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+                로디쌤 지원하기
+            </a>
+        </div>
+    </div>
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>로디랩</h3>
+                <p>부모님의 디지털 일상을 함께하는<br>교육 혁신 기업입니다.</p>
+            </div>
+            <div class="footer-section">
+                <h3>빠른 링크</h3>
+                <p><a href="/brand_page.html">로디랩 소개</a></p>
+                <p><a href="/package_page.html">패키지 소개</a></p>
+                <p><a href="/review_page.html">서비스 리뷰</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>문의</h3>
+                <p>이메일: </p>
+                <p>전화: 010-0000-0000</p>
+                <p>주소: 성남시 수정구</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 로디랩(RODILAB). All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>패키지 소개 - RODILAB</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* 네비게이션 */
+        nav {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #307B52;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu > li {
+            position: relative;
+        }
+
+        .nav-menu > li > a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu > li > a:hover {
+            color: #307B52;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            min-width: 180px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+        }
+
+        .dropdown li {
+            list-style: none;
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.7rem 1.5rem;
+            color: #555;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .dropdown a:hover {
+            background: #f0f9f4;
+            color: #307B52;
+        }
+
+        .nav-menu > li:hover .dropdown {
+            display: block;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #307B52 0%, #55A759 100%);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(48, 123, 82, 0.3);
+        }
+
+        /* 페이지 헤더 */
+        .page-header {
+            background: linear-gradient(135deg, #307B52 0%, #55A759 100%);
+            color: white;
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+
+        /* 섹션 */
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* 패키지 그리드 */
+        .package-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .package-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(48, 123, 82, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .package-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 24px rgba(48, 123, 82, 0.2);
+        }
+
+        .package-header {
+            background: linear-gradient(135deg, #307B52 0%, #55A759 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .package-header h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .package-header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .package-body {
+            padding: 2rem;
+        }
+
+        .package-price {
+            font-size: 1.5rem;
+            color: #307B52;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(48, 123, 82, 0.1);
+        }
+
+        .package-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .package-features li {
+            padding: 0.7rem 0;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .package-features li:before {
+            content: "✓";
+            color: #307B52;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .package-button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #307B52 0%, #55A759 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(48, 123, 82, 0.15);
+        }
+
+        .package-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(48, 123, 82, 0.25);
+        }
+
+        /* 모달 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(48, 123, 82, 0.2);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: #999;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #307B52 0%, #55A759 100%);
+            color: white;
+            padding: 2rem;
+            margin: -2rem -2rem 2rem -2rem;
+            border-radius: 16px 16px 0 0;
+            text-align: center;
+        }
+
+        .modal-header h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-price {
+            font-size: 1.8rem;
+            color: #307B52;
+            font-weight: bold;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .modal-details {
+            margin: 2rem 0;
+        }
+
+        .modal-details h4 {
+            color: #307B52;
+            margin: 1.5rem 0 1rem 0;
+            font-size: 1.1rem;
+        }
+
+        .modal-details ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .modal-details li {
+            padding: 0.7rem 0;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .modal-details li:before {
+            content: "•";
+            color: #307B52;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .modal-button {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, #307B52 0%, #55A759 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 2rem;
+            box-shadow: 0 4px 12px rgba(48, 123, 82, 0.25);
+        }
+
+        .modal-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(48, 123, 82, 0.35);
+        }
+
+        /* 푸터 */
+        footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            color: #ccc;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+        }
+
+        .footer-section h3 {
+            color: #55A759;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #999;
+            text-decoration: none;
+            line-height: 2;
+        }
+
+        .footer-section a:hover {
+            color: #55A759;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+            color: #666;
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .package-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .page-header p {
+                font-size: 1rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 네비게이션 -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">RODILAB</div>
+            <ul class="nav-menu">
+                <li>
+                    <a href="/brand_page.html">로디랩 소개</a>
+                    <ul class="dropdown">
+                        <li><a href="/brand_page.html">브랜드 소개</a></li>
+                        <li><a href="/activities_page.html">활동 내역</a></li>
+                        <li><a href="/teacher_page.html">로디쌤</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/package_page.html">패키지 소개</a>
+                    <ul class="dropdown">
+                        <li><a href="/package_page.html">패키지 소개</a></li>
+                        <li><a href="/contents_page.html">구성 소개</a></li>
+                        <li><a href="/enterprise_page.html">기업 전용</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/review_page.html">리뷰</a>
+                    <ul class="dropdown">
+                        <li><a href="/review_page.html">서비스 리뷰</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <a href="#" class="cta-button" onclick="openModal(); return false;">상담 신청</a>
+        </div>
+    </nav>
+
+    <!-- 페이지 헤더 -->
+    <div class="page-header">
+        <h1>패키지 소개</h1>
+        <p>당신에게 맞는 맞춤형 교육 패키지를 선택하세요</p>
+    </div>
+
+    <!-- 메인 컨텐츠 -->
+    <div class="section">
+        <div class="package-grid">
+            <!-- 패키지 1: 1:1 8회차 -->
+            <div class="package-card" onclick="openModal('package1')">
+                <div class="package-header">
+                    <h3>1:1 8회차</h3>
+                    <p>기초 입문 패키지</p>
+                </div>
+                <div class="package-body">
+                    <div class="package-price">별도 문의</div>
+                    <ul class="package-features">
+                        <li>1:1 맞춤형 교육</li>
+                        <li>총 8회차 (주 2회)</li>
+                        <li>커스텀 학습지 제공</li>
+                        <li>기초 디지털 역량 습득</li>
+                    </ul>
+                    <button class="package-button">자세히 보기</button>
+                </div>
+            </div>
+
+            <!-- 패키지 2: 1:1 12회차 -->
+            <div class="package-card" onclick="openModal('package2')">
+                <div class="package-header">
+                    <h3>1:1 12회차</h3>
+                    <p>기본 종합 패키지</p>
+                </div>
+                <div class="package-body">
+                    <div class="package-price">별도 문의</div>
+                    <ul class="package-features">
+                        <li>1:1 맞춤형 교육</li>
+                        <li>총 12회차 (주 2회)</li>
+                        <li>커스텀 학습지 제공</li>
+                        <li>생활 밀착형 기술 습득</li>
+                    </ul>
+                    <button class="package-button">자세히 보기</button>
+                </div>
+            </div>
+
+            <!-- 패키지 3: 1:1 24회차 -->
+            <div class="package-card" onclick="openModal('package3')">
+                <div class="package-header">
+                    <h3>1:1 24회차</h3>
+                    <p>프리미엄 완성 패키지</p>
+                </div>
+                <div class="package-body">
+                    <div class="package-price">별도 문의</div>
+                    <ul class="package-features">
+                        <li>1:1 맞춤형 교육</li>
+                        <li>총 24회차 (주 2회)</li>
+                        <li>커스텀 학습지 제공</li>
+                        <li>심화 디지털 역량 습득</li>
+                    </ul>
+                    <button class="package-button">자세히 보기</button>
+                </div>
+            </div>
+
+            <!-- 패키지 4: 1:3 15회차 -->
+            <div class="package-card" onclick="openModal('package4')">
+                <div class="package-header">
+                    <h3>1:3 15회차</h3>
+                    <p>그룹 경제형 패키지</p>
+                </div>
+                <div class="package-body">
+                    <div class="package-price">별도 문의</div>
+                    <ul class="package-features">
+                        <li>1:3 소그룹 교육</li>
+                        <li>총 15회차 (주 2회)</li>
+                        <li>커스텀 학습지 제공</li>
+                        <li>또래 학습자와 함께</li>
+                    </ul>
+                    <button class="package-button">자세히 보기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 모달: 1:1 8회차 -->
+    <div class="modal" id="package1">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('package1')">×</button>
+            <div class="modal-header">
+                <h2>1:1 8회차</h2>
+                <p>컴팩트하게!</p>
+            </div>
+            <div class="modal-price">별도 문의</div>
+            <div class="modal-details">
+                <h4>📋 패키지 구성</h4>
+                <ul>
+                    <li>1:1 맞춤형 개인 교육</li>
+                    <li>총 8회차 수업 (주 2회, 약 4주)</li>
+                    <li>회당 60분 교육</li>
+                    <li>장소: 가정 또는 복지관</li>
+                </ul>
+
+                <h4>📚 학습 내용</h4>
+                <ul>
+                    <li>스마트폰 기초 사용법</li>
+                    <li>카카오톡 설치 및 사용</li>
+                    <li>기본 앱 다운로드 방법</li>
+                    <li>휴대폰 사진 관리</li>
+                </ul>
+
+                <h4>🎁 포함 사항</h4>
+                <ul>
+                    <li>시니어 맞춤형 학습지</li>
+                    <li>복습 가능한 자료 제공</li>
+                    <li>카카오톡 오픈채팅 커뮤니티 가입</li>
+                </ul>
+            </div>
+            <button class="modal-button" onclick="goToConsult()">지금 바로 교육 상담 신청</button>
+        </div>
+    </div>
+
+    <!-- 모달: 1:1 12회차 -->
+    <div class="modal" id="package2">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('package2')">×</button>
+            <div class="modal-header">
+                <h2>1:1 12회차</h2>
+                <p>기본적인 기능만 확실하게!</p>
+            </div>
+            <div class="modal-price">별도 문의</div>
+            <div class="modal-details">
+                <h4>📋 패키지 구성</h4>
+                <ul>
+                    <li>1:1 맞춤형 개인 교육</li>
+                    <li>총 12회차 수업 (주 2회, 약 6주)</li>
+                    <li>회당 60분 교육</li>
+                    <li>장소: 가정 또는 복지관</li>
+                </ul>
+
+                <h4>📚 학습 내용</h4>
+                <ul>
+                    <li>스마트폰 기초 + 심화</li>
+                    <li>카카오톡, 라인 등 메신저 활용</li>
+                    <li>모바일 뱅킹 기초</li>
+                    <li>지도/택시앱 사용법</li>
+                    <li>온라인 쇼핑 기초</li>
+                </ul>
+
+                <h4>🎁 포함 사항</h4>
+                <ul>
+                    <li>시니어 맞춤형 학습지</li>
+                    <li>반복 학습 자료</li>
+                    <li>카카오톡 오픈채팅 커뮤니티 가입</li>
+                    <li>사후 관리 서비스</li>
+                </ul>
+            </div>
+            <button class="modal-button" onclick="goToConsult()">지금 바로 교육 상담 신청</button>
+        </div>
+    </div>
+
+    <!-- 모달: 1:1 24회차 -->
+    <div class="modal" id="package3">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('package3')">×</button>
+            <div class="modal-header">
+                <h2>1:1 24회차</h2>
+                <p>처음부터 끝까지 모두!</p>
+            </div>
+            <div class="modal-price">별도 문의</div>
+            <div class="modal-details">
+                <h4>📋 패키지 구성</h4>
+                <ul>
+                    <li>1:1 맞춤형 개인 교육</li>
+                    <li>총 24회차 수업 (주 2회, 약 12주)</li>
+                    <li>회당 60분 교육</li>
+                    <li>장소: 가정 또는 복지관</li>
+                </ul>
+
+                <h4>📚 학습 내용</h4>
+                <ul>
+                    <li>스마트폰 기초 + 심화 + 활용</li>
+                    <li>모든 메신저 앱 마스터</li>
+                    <li>모바일 뱅킹 완벽 활용</li>
+                    <li>온라인 쇼핑/예매</li>
+                    <li>SNS 기초 (카카오스토리, 인스타그램)</li>
+                    <li>YouTube 활용법</li>
+                </ul>
+
+                <h4>🎁 포함 사항</h4>
+                <ul>
+                    <li>시니어 맞춤형 학습지</li>
+                    <li>상세한 반복 학습 자료</li>
+                    <li>카카오톡 오픈채팅 커뮤니티 가입</li>
+                    <li>전담 튜터 배정</li>
+                    <li>심화 사후 관리 서비스</li>
+                </ul>
+            </div>
+            <button class="modal-button" onclick="goToConsult()">지금 바로 교육 상담 신청</button>
+        </div>
+    </div>
+
+    <!-- 모달: 1:3 15회차 -->
+    <div class="modal" id="package4">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('package4')">×</button>
+            <div class="modal-header">
+                <h2>1:3 15회차</h2>
+                <p>친구들과 함께!</p>
+            </div>
+            <div class="modal-price">별도 문의</div>
+            <div class="modal-details">
+                <h4>📋 패키지 구성</h4>
+                <ul>
+                    <li>1:3 소그룹 맞춤형 교육 (3명)</li>
+                    <li>총 15회차 수업 (주 2회, 약 8주)</li>
+                    <li>회당 90분 교육</li>
+                    <li>장소: 복지관 또는 커뮤니티센터</li>
+                </ul>
+
+                <h4>📚 학습 내용</h4>
+                <ul>
+                    <li>스마트폰 기초 + 심화</li>
+                    <li>모든 메신저 앱 활용</li>
+                    <li>모바일 뱅킹</li>
+                    <li>온라인 쇼핑 및 예매</li>
+                    <li>건강 관련 앱 (건강보험, 처방약)</li>
+                </ul>
+
+                <h4>🎁 포함 사항</h4>
+                <ul>
+                    <li>시니어 맞춤형 학습지</li>
+                    <li>그룹 학습의 장점으로 또래 학습</li>
+                    <li>카카오톡 오픈채팅 커뮤니티 가입</li>
+                    <li>그룹별 사후 관리 서비스</li>
+                    <li>1:1 교육보다 경제적</li>
+                </ul>
+            </div>
+            <button class="modal-button" onclick="goToConsult()">지금 바로 교육 상담 신청</button>
+        </div>
+    </div>
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>로디랩</h3>
+                <p>부모님의 디지털 일상을 함께하는<br>교육 혁신 기업입니다.</p>
+            </div>
+            <div class="footer-section">
+                <h3>빠른 링크</h3>
+                <p><a href="/brand_page.html">로디랩 소개</a></p>
+                <p><a href="/package_page.html">패키지 소개</a></p>
+                <p><a href="/review_page.html">서비스 리뷰</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>문의</h3>
+                <p>이메일: </p>
+                <p>전화: 010-0000-0000</p>
+                <p>주소: 성남시 수정구</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 로디랩(RODILAB). All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function openModal(packageId) {
+            document.getElementById(packageId).classList.add('active');
+        }
+
+        function closeModal(packageId) {
+            document.getElementById(packageId).classList.remove('active');
+        }
+
+        function goToConsult() {
+            // 상담 신청 폼으로 이동 (메인 페이지의 상담 신청 섹션이나 별도 폼 페이지)
+            window.location.href = 'index.html#contact';
+        }
+
+        // 모달 외부 영역 클릭 시 모달 닫기
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

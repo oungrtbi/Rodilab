@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>기업 전용 - RODILAB</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* 네비게이션 */
+        nav {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #307B52;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu > li {
+            position: relative;
+        }
+
+        .nav-menu > li > a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu > li > a:hover {
+            color: #307B52;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            min-width: 180px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+        }
+
+        .dropdown li {
+            list-style: none;
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.7rem 1.5rem;
+            color: #555;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .dropdown a:hover {
+            background: #f0f9f4;
+            color: #307B52;
+        }
+
+        .nav-menu > li:hover .dropdown {
+            display: block;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #307B52 0%, #55A759 100%);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(48, 123, 82, 0.3);
+        }
+
+        /* 페이지 헤더 */
+        .page-header {
+            background: linear-gradient(135deg, #307B52 0%, #55A759 100%);
+            color: white;
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+
+        /* 섹션 */
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* 수업 형태 섹션 */
+        .service-section {
+            margin-bottom: 4rem;
+        }
+
+        .service-title {
+            font-size: 2rem;
+            color: #307B52;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, rgba(48, 123, 82, 0.05) 0%, rgba(85, 167, 89, 0.05) 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 4px solid #307B52;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(48, 123, 82, 0.08);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(48, 123, 82, 0.15);
+            border-left-color: #55A759;
+        }
+
+        .service-card h3 {
+            color: #307B52;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .service-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* 신청 폼 섹션 */
+        .inquiry-section {
+            background: white;
+            border: 2px solid rgba(48, 123, 82, 0.2);
+            border-radius: 16px;
+            padding: 3rem;
+            margin-top: 4rem;
+            box-shadow: 0 4px 12px rgba(48, 123, 82, 0.1);
+        }
+
+        .inquiry-section h2 {
+            font-size: 1.8rem;
+            color: #307B52;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #307B52;
+            box-shadow: 0 0 0 3px rgba(48, 123, 82, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, #307B52 0%, #55A759 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+            box-shadow: 0 4px 12px rgba(48, 123, 82, 0.25);
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(48, 123, 82, 0.35);
+        }
+
+        .submit-button:active {
+            transform: scale(0.98);
+        }
+
+        /* 푸터 */
+        footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            color: #ccc;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+        }
+
+        .footer-section h3 {
+            color: #55A759;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #999;
+            text-decoration: none;
+            line-height: 2;
+        }
+
+        .footer-section a:hover {
+            color: #55A759;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+            color: #666;
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .service-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .page-header p {
+                font-size: 1rem;
+            }
+
+            .inquiry-section {
+                padding: 2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 네비게이션 -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">RODILAB</div>
+            <ul class="nav-menu">
+                <li>
+                    <a href="/brand_page.html">로디랩 소개</a>
+                    <ul class="dropdown">
+                        <li><a href="/brand_page.html">브랜드 소개</a></li>
+                        <li><a href="/activities_page.html">활동 내역</a></li>
+                        <li><a href="/teacher_page.html">로디쌤</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/package_page.html">패키지 소개</a>
+                    <ul class="dropdown">
+                        <li><a href="/package_page.html">패키지 소개</a></li>
+                        <li><a href="/contents_page.html">구성 소개</a></li>
+                        <li><a href="/enterprise_page.html">기업 전용</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/review_page.html">리뷰</a>
+                    <ul class="dropdown">
+                        <li><a href="/review_page.html">서비스 리뷰</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <a href="#" class="cta-button" onclick="openModal(); return false;">상담 신청</a>
+        </div>
+    </nav>
+
+    <!-- 페이지 헤더 -->
+    <div class="page-header">
+        <h1>기업 전용</h1>
+        <p>직원 및 임직원을 위한 맞춤형 디지털 교육</p>
+    </div>
+
+    <!-- 메인 컨텐츠 -->
+    <div class="section">
+        <!-- 제공 가능한 수업 형태 -->
+        <div class="service-section">
+            <h2 class="service-title">제공 가능한 수업 형태</h2>
+            <div class="service-grid">
+                <div class="service-card">
+                    <h3>👥 1:n 맞춤형 소그룹 교육</h3>
+                    <p>
+                        참여 인원을 작은 그룹으로 나누어 진행합니다. 
+                        예) 20명 → 4명씩 5개 그룹으로 나누어 5명의 전담 강사가 각 그룹을 담당합니다. 
+                        개인의 수준에 맞춘 밀착 케어로 최고의 효과를 낼 수 있습니다.
+                    </p>
+                </div>
+
+                <div class="service-card">
+                    <h3>🎓 메인 강사 집단 교육</h3>
+                    <p>
+                        한 명의 메인 강사가 전체 참여자를 함께 가르치는 형태입니다. 
+                        일관된 커리큘럼으로 모든 직원이 동일한 내용을 학습합니다. 
+                        대규모 인원이 함께 참여하는 효율적인 교육 방식입니다.
+                    </p>
+                </div>
+
+                <div class="service-card">
+                    <h3>📱 맞춤 커리큘럼 개발</h3>
+                    <p>
+                        귀사의 산업 특성과 직원 구성, 교육 필요도에 맞춘 커리큘럼을 특별히 개발합니다. 
+                        기초부터 심화까지 단계별로 체계적으로 구성됩니다.
+                    </p>
+                </div>
+
+                <div class="service-card">
+                    <h3>⭐ 확실한 교육 효과</h3>
+                    <p>
+                        1:n 소그룹 교육 방식으로 높은 교육 효과를 보장합니다. 
+                        단순 강의를 넘어 실습, 반복 학습, 개별 피드백으로 
+                        실질적인 디지털 역량 향상을 이끌어냅니다.
+                    </p>
+                </div>
+
+                <div class="service-card">
+                    <h3>📊 교육 결과 보고</h3>
+                    <p>
+                        교육 진행 현황과 결과를 상세하게 리포팅해드립니다. 
+                        직원들의 학습 진도, 개선사항, 효과 측정을 객관적으로 제시합니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 신청 폼 -->
+        <div class="inquiry-section">
+            <h2>기업 교육 문의</h2>
+            <form action="https://formsubmit.co/contact@rodilab.com" method="POST">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="company">회사명 *</label>
+                        <input type="text" id="company" name="company" required placeholder="회사명을 입력해주세요">
+                    </div>
+                    <div class="form-group">
+                        <label for="department">부서 및 직급</label>
+                        <input type="text" id="department" name="department" placeholder="부서 및 직급을 입력해주세요">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">담당자명 *</label>
+                        <input type="text" id="name" name="name" required placeholder="담당자 이름을 입력해주세요">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">이메일 *</label>
+                        <input type="email" id="email" name="email" required placeholder="이메일을 입력해주세요">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">연락처 *</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="010-0000-0000">
+                    </div>
+                    <div class="form-group">
+                        <label for="participants">예상 참여 인원</label>
+                        <input type="number" id="participants" name="participants" placeholder="인원수를 입력해주세요" min="1">
+                    </div>
+                </div>
+
+                <div class="form-group full">
+                    <label for="type">원하는 교육 형태 *</label>
+                    <select id="type" name="type" required>
+                        <option value="">-- 선택해주세요 --</option>
+                        <option value="1:n소그룹">1:n 맞춤형 소그룹 교육 (높은 효과)</option>
+                        <option value="메인강사집단">메인 강사 집단 교육 (전체 통합)</option>
+                    </select>
+                </div>
+
+                <div class="form-group full">
+                    <label for="message">추가 문의사항</label>
+                    <textarea id="message" name="message" placeholder="교육 일정, 특별한 요청사항 등을 입력해주세요"></textarea>
+                </div>
+
+                <button type="submit" class="submit-button">신청하기</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>로디랩</h3>
+                <p>부모님의 디지털 일상을 함께하는<br>교육 혁신 기업입니다.</p>
+            </div>
+            <div class="footer-section">
+                <h3>빠른 링크</h3>
+                <p><a href="/brand_page.html">로디랩 소개</a></p>
+                <p><a href="/package_page.html">패키지 소개</a></p>
+                <p><a href="/review_page.html">서비스 리뷰</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>문의</h3>
+                <p>이메일: </p>
+                <p>전화: 010-0000-0000</p>
+                <p>주소: 성남시 수정구</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 로디랩(RODILAB). All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

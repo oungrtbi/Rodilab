@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>구성 소개 - RODILAB</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* 네비게이션 */
+        nav {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #307B52;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu > li {
+            position: relative;
+        }
+
+        .nav-menu > li > a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu > li > a:hover {
+            color: #307B52;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            min-width: 180px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+        }
+
+        .dropdown li {
+            list-style: none;
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.7rem 1.5rem;
+            color: #555;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .dropdown a:hover {
+            background: #f0f9f4;
+            color: #307B52;
+        }
+
+        .nav-menu > li:hover .dropdown {
+            display: block;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #307B52 0%, #55A759 100%);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(48, 123, 82, 0.3);
+        }
+
+        /* 페이지 헤더 */
+        .page-header {
+            background: linear-gradient(135deg, #307B52 0%, #55A759 100%);
+            color: white;
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+
+        /* 섹션 */
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* 컨텐츠 아이템 */
+        .content-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-bottom: 5rem;
+        }
+
+        .content-item.reverse {
+            direction: rtl;
+        }
+
+        .content-item.reverse > * {
+            direction: ltr;
+        }
+
+        .content-image {
+            width: 100%;
+            height: 350px;
+            background: linear-gradient(135deg, #307B52 0%, #55A759 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+            box-shadow: 0 8px 24px rgba(48, 123, 82, 0.25);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .content-image:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 32px rgba(48, 123, 82, 0.35);
+        }
+
+        .content-text h3 {
+            font-size: 2rem;
+            color: #307B52;
+            margin-bottom: 1.5rem;
+        }
+
+        .content-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        .content-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(48, 123, 82, 0.05) 0%, rgba(85, 167, 89, 0.05) 100%);
+            border-left: 4px solid #307B52;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .highlight-box:hover {
+            border-left-color: #55A759;
+            box-shadow: 0 4px 12px rgba(48, 123, 82, 0.15);
+        }
+
+        .highlight-box p {
+            margin: 0;
+            color: #307B52;
+            font-weight: 500;
+        }
+
+        /* 푸터 */
+        footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            color: #ccc;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+        }
+
+        .footer-section h3 {
+            color: #55A759;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #999;
+            text-decoration: none;
+            line-height: 2;
+        }
+
+        .footer-section a:hover {
+            color: #55A759;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+            color: #666;
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .content-item {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .content-item.reverse {
+                direction: ltr;
+            }
+
+            .content-image {
+                height: 250px;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .page-header p {
+                font-size: 1rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .content-text h3 {
+                font-size: 1.5rem;
+            }
+
+            .content-text p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 네비게이션 -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">RODILAB</div>
+            <ul class="nav-menu">
+                <li>
+                    <a href="/brand_page.html">로디랩 소개</a>
+                    <ul class="dropdown">
+                        <li><a href="/brand_page.html">브랜드 소개</a></li>
+                        <li><a href="/activities_page.html">활동 내역</a></li>
+                        <li><a href="/teacher_page.html">로디쌤</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/package_page.html">패키지 소개</a>
+                    <ul class="dropdown">
+                        <li><a href="/package_page.html">패키지 소개</a></li>
+                        <li><a href="/contents_page.html">구성 소개</a></li>
+                        <li><a href="/enterprise_page.html">기업 전용</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/review_page.html">리뷰</a>
+                    <ul class="dropdown">
+                        <li><a href="/review_page.html">서비스 리뷰</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <a href="#" class="cta-button" onclick="openModal(); return false;">상담 신청</a>
+        </div>
+    </nav>
+
+    <!-- 페이지 헤더 -->
+    <div class="page-header">
+        <h1>구성 소개</h1>
+        <p>로디랩의 핵심 서비스 컨텐츠를 만나보세요</p>
+    </div>
+
+    <!-- 메인 컨텐츠 -->
+    <div class="section">
+        <!-- 컨텐츠 1 -->
+        <div class="content-item">
+            <div class="content-image">📚</div>
+            <div class="content-text">
+                <h3>시니어 맞춤형 학습지</h3>
+                <p>
+                    로디랩은 시니어 세대를 위해 특별히 제작한 학습지를 제공합니다. 
+                    큰 글씨, 명확한 그림, 단계별 설명으로 누구나 쉽게 따라할 수 있습니다.
+                </p>
+                <p>
+                    복잡한 기술 용어는 최소화하고, 실생활에 필요한 핵심 내용만 담았습니다. 
+                    수업 후에도 집에서 천천히 복습할 수 있도록 체계적으로 구성했습니다.
+                </p>
+                <div class="highlight-box">
+                    <p>✓ 각 단계별로 따라하기 쉬운 구성</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 컨텐츠 2 -->
+        <div class="content-item reverse">
+            <div class="content-image">🤝</div>
+            <div class="content-text">
+                <h3>로디랩만의 사후 관리 서비스</h3>
+                <p>
+                    교육이 끝난 후가 더 중요하다고 생각하는 로디랩은 지속적인 사후 관리 서비스를 제공합니다. 
+                    배운 내용이 실생활에서 자연스럽게 적용될 때까지 옆에서 응원하겠습니다.
+                </p>
+                <p>
+                    정기적인 피드백, 추가 질문 상담, 더 나은 방법 제안 등으로 
+                    수강자분들이 느끼는 어려움을 즉시 해결해드립니다.
+                </p>
+                <div class="highlight-box">
+                    <p>✓ 교육 후에도 계속되는 따뜻한 손길</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 컨텐츠 3 -->
+        <div class="content-item">
+            <div class="content-image">🔄</div>
+            <div class="content-text">
+                <h3>철저한 반복 학습 컨텐츠</h3>
+                <p>
+                    "백번 듣는 것보다 한 번 직접 해보는 것이 낫다"는 원칙으로, 
+                    로디랩은 반복 학습을 최고 가치로 삼습니다.
+                </p>
+                <p>
+                    같은 내용을 다양한 상황에서, 여러 번 반복하며 배울 수 있도록 설계했습니다. 
+                    이를 통해 기술이 자연스러운 습관이 되고, 어떤 상황에서도 자신감 있게 활용할 수 있습니다.
+                </p>
+                <div class="highlight-box">
+                    <p>✓ 충분한 연습을 통한 완전한 습득</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 컨텐츠 4 -->
+        <div class="content-item reverse">
+            <div class="content-image">💬</div>
+            <div class="content-text">
+                <h3>카카오톡 오픈 채팅</h3>
+                <p>
+                    로디랩 수강자분들을 위한 전용 카카오톡 오픈 채팅방을 운영합니다. 
+                    수강 중 또는 수강 후에 궁금한 점을 언제든 편하게 질문할 수 있습니다.
+                </p>
+                <p>
+                    튜터쌤들이 직접 답변해주며, 다른 수강자분들과 팁을 공유하고 서로 응원하는 
+                    따뜻한 커뮤니티입니다. 배움의 과정이 외로우신 분들을 위한 든든한 지원군이 되어드립니다.
+                </p>
+                <div class="highlight-box">
+                    <p>✓ 24시간 언제든 질문 가능한 편리함</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>로디랩</h3>
+                <p>부모님의 디지털 일상을 함께하는<br>교육 혁신 기업입니다.</p>
+            </div>
+            <div class="footer-section">
+                <h3>빠른 링크</h3>
+                <p><a href="/brand_page.html">로디랩 소개</a></p>
+                <p><a href="/package_page.html">패키지 소개</a></p>
+                <p><a href="/review_page.html">서비스 리뷰</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>문의</h3>
+                <p>이메일: </p>
+                <p>전화: 010-0000-0000</p>
+                <p>주소: 성남시 수정구</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 로디랩(RODILAB). All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

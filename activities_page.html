@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>활동 내역 - RODILAB</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* 네비게이션 */
+        nav {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #307B52;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu > li {
+            position: relative;
+        }
+
+        .nav-menu > li > a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu > li > a:hover {
+            color: #307B52;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            min-width: 180px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+        }
+
+        .dropdown li {
+            list-style: none;
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.7rem 1.5rem;
+            color: #555;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .dropdown a:hover {
+            background: #f0f9f4;
+            color: #307B52;
+        }
+
+        .nav-menu > li:hover .dropdown {
+            display: block;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #307B52 0%, #55A759 100%);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(48, 123, 82, 0.3);
+        }
+
+        /* 페이지 헤더 */
+        .page-header {
+            background: linear-gradient(135deg, #307B52 0%, #55A759 100%);
+            color: white;
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+
+        /* 섹션 */
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* 타임라인 */
+        .timeline-container {
+            position: relative;
+            padding: 2rem 0;
+            overflow: hidden; 
+        }
+
+        /* 1. 중앙 선 (가장 뒤로 보냄) */
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #307B52 0%, #55A759 100%);
+            transform: translateX(-50%);
+            z-index: 0;
+        }
+
+        /* 2. 아이템 행 설정 (여기가 핵심!) */
+        .timeline-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 4rem;
+            position: relative;
+            z-index: 1;
+            min-height: 120px;
+        }
+
+        .timeline-item.left {
+            flex-direction: row;
+        }
+
+        .timeline-item.right {
+            flex-direction: row-reverse;
+        }
+
+        /* 콘텐츠 영역 */
+        .timeline-content-wrapper {
+            width: 45%;
+            flex: 1;
+        }
+
+        /* 빈 공간 */
+        .timeline-spacer {
+            width: 45%;
+            flex: 1;
+        }
+
+        /* 중앙 점 영역 */
+        .timeline-dot-wrapper {
+            width: 10%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+            min-height: 120px;
+        }
+
+        /* 텍스트 정렬 */
+        .timeline-item.left .timeline-content-wrapper {
+            text-align: right;
+            padding-right: 2rem; 
+        }
+
+        .timeline-item.right .timeline-content-wrapper {
+            text-align: left;
+            padding-left: 2rem;
+        }
+
+        /* 박스 디자인 */
+        .timeline-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(48, 123, 82, 0.1);
+            border: 2px solid #307B52;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: inline-block; 
+            width: 100%; 
+            text-align: left;
+            position: relative;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(48, 123, 82, 0.25);
+            border-color: #55A759;
+        }
+
+        .timeline-date {
+            color: #307B52;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .timeline-title {
+            color: #333;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .timeline-description {
+            color: #666;
+            line-height: 1.7;
+        }
+
+        /* 점 디자인 - PC/모바일 모두 보이도록 수정 */
+        .timeline-dot {
+            width: 28px;
+            height: 28px;
+            background: #307B52;
+            border: 4px solid white;
+            border-radius: 50%;
+            box-shadow: 0 0 0 3px #307B52;
+            position: absolute;
+            z-index: 20;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            flex-shrink: 0;
+        }
+
+        .timeline-dot.active {
+            background: #55A759;
+            box-shadow: 0 0 0 3px #55A759;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.15); }
+        }
+
+        /* 모바일 반응형 */
+        @media (max-width: 768px) {
+            .timeline-line {
+                left: 30px;
+                transform: none;
+            }
+
+            .timeline-item, 
+            .timeline-item.left, 
+            .timeline-item.right {
+                flex-direction: row !important; 
+                justify-content: flex-start;
+                align-items: flex-start;
+                min-height: auto;
+            }
+
+            .timeline-content-wrapper {
+                width: auto !important;
+                flex: 1;
+                padding-left: 2rem !important; 
+                padding-right: 0 !important;
+                text-align: left !important;
+            }
+
+            .timeline-dot-wrapper {
+                width: 60px;
+                min-height: auto;
+                position: absolute;
+                left: 0;
+                top: 0;
+                justify-content: center;
+                align-items: center;
+                padding-top: 8px;
+            }
+
+            .timeline-spacer {
+                display: none; 
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .page-header p {
+                font-size: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        /* 통계 섹션 */
+        .stats-section {
+            background: linear-gradient(135deg, rgba(48, 123, 82, 0.05) 0%, rgba(85, 167, 89, 0.05) 100%);
+            padding: 3rem;
+            border-radius: 16px;
+            margin-bottom: 4rem;
+            border: 1px solid rgba(48, 123, 82, 0.2);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(48, 123, 82, 0.08);
+            border-left: 4px solid #307B52;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(48, 123, 82, 0.15);
+            border-left-color: #55A759;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #307B52 0%, #55A759 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #307B52;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-desc {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* 푸터 */
+        footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            color: #ccc;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+        }
+
+        .footer-section h3 {
+            color: #55A759;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #999;
+            text-decoration: none;
+            line-height: 2;
+        }
+
+        .footer-section a:hover {
+            color: #55A759;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <!-- 네비게이션 -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo-link">
+                <div class="logo">RODILAB</div>
+            </a>
+            <ul class="nav-menu">
+                <li>
+                    <a href="/brand_page.html">로디랩 소개</a>
+                    <ul class="dropdown">
+                        <li><a href="/brand_page.html">브랜드 소개</a></li>
+                        <li><a href="/activities_page.html">활동 내역</a></li>
+                        <li><a href="/teacher_page.html">로디쌤</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/package_page.html">패키지 소개</a>
+                    <ul class="dropdown">
+                        <li><a href="/package_page.html">패키지 소개</a></li>
+                        <li><a href="/contents_page.html">구성 소개</a></li>
+                        <li><a href="/enterprise_page.html">기업 전용</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/review_page.html">리뷰</a>
+                    <ul class="dropdown">
+                        <li><a href="/review_page.html">서비스 리뷰</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <a href="#" class="cta-button" onclick="openModal(); return false;">상담 신청</a>
+        </div>
+    </nav>
+
+    <!-- 페이지 헤더 -->
+    <div class="page-header">
+        <h1>활동 내역</h1>
+        <p>2025년 3월부터 현재까지, 로디랩의 여정</p>
+    </div>
+
+    <!-- 메인 컨텐츠 -->
+    <div class="section">
+        <!-- 주요 성과 통계 -->
+        <div class="stats-section">
+            <h2 style="text-align: center; color: #307B52; font-size: 2rem; margin-bottom: 0.5rem;">지금까지의 성과</h2>
+            <p style="text-align: center; color: #666; margin-bottom: 1rem;">숫자로 보는 로디랩의 임팩트</p>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">누적 교육 인원</div>
+                    <div class="stat-desc">복지관 및 경로당 중심</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">250%</div>
+                    <div class="stat-label">디지털 역량 향상</div>
+                    <div class="stat-desc">평균 2.5단계 상승</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4개</div>
+                    <div class="stat-label">창업 지원 선정</div>
+                    <div class="stat-desc">검증된 사회적 가치</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 타임라인 -->
+        <h2 style="text-align: center; color: #307B52; font-size: 2rem; margin-bottom: 3rem;">활동 타임라인</h2>
+        
+        <div class="timeline-container">
+            <div class="timeline-line"></div>
+            
+            <div class="timeline-item left">
+                <div class="timeline-content-wrapper">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2024년 겨울</div>
+                        <div class="timeline-title">팀 결성 및 사업 기획</div>
+                        <div class="timeline-description">
+                            가천대학교 인액터스 소속 학생들이 모여 시니어 디지털 격차 문제를 해결하기 위한 로디랩 프로젝트를 시작했습니다.
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-dot-wrapper">
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-spacer"></div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-content-wrapper">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2025년 2월</div>
+                        <div class="timeline-title">무료 교육 테스트</div>
+                        <div class="timeline-description">
+                            성남 산성복지관, 마크뷰경로당에서 첫 교육 프로그램을 시작했습니다. 
+                            "스마트폰을 가장 잘 배울 수 있는 프로그램이다."는 반응을 얻을 수 있었습니다.
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-dot-wrapper">
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-spacer"></div>
+            </div>
+
+            <div class="timeline-item left">
+                <div class="timeline-content-wrapper">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2025년 4월</div>
+                        <div class="timeline-title">교육 프로그램 확대</div>
+                        <div class="timeline-description">
+                            기초반, 심화반으로 커리큘럼을 세분화하고, 복지관 추가 협약을 체결했습니다.
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-dot-wrapper">
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-spacer"></div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-content-wrapper">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2025년 상반기</div>
+                        <div class="timeline-title">50명 누적 교육 달성</div>
+                        <div class="timeline-description">
+                            무료 교육 서비스 수강생을 50명 기록했습니다. <br>
+                            평균 디지털 역량 2.5단계(250%) 향상이라는 성과를 기록했습니다.
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-dot-wrapper">
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-spacer"></div>
+            </div>
+
+            <div class="timeline-item left">
+                <div class="timeline-content-wrapper">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2025년 10월</div>
+                        <div class="timeline-title">정식 서비스 런칭</div>
+                        <div class="timeline-description">
+                            25년 10월, 로디랩의 서비스가 정식으로 런칭되었습니다.
+                            서비스 런칭 이후 한 달만에 4명의 고객을 확보했고, 계속해서
+                            고객을 유치하고 있습니다.
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-dot-wrapper">
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-spacer"></div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-content-wrapper">
+                    <div class="timeline-content" style="background: linear-gradient(135deg, #307B52 0%, #55A759 100%); color: white; border: none;">
+                        <div class="timeline-date" style="color: white;">현재 진행중</div>
+                        <div class="timeline-title" style="color: white; opacity: 0.95;">지속적인 교육 확대와 성장</div>
+                        <div class="timeline-description" style="color: white; opacity: 0.9;">
+                            더 많은 복지관 및 기업과의 협업을 진행 중이며, <br>로디쌤 양성 프로그램을 고도화하고 있습니다.
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-dot-wrapper">
+                    <div class="timeline-dot active"></div>
+                </div>
+                <div class="timeline-spacer"></div>
+            </div>
+        </div>
+
+        <!-- 수상 및 인증 -->
+        <div style="margin-top: 5rem; padding: 2.5rem; background: linear-gradient(135deg, rgba(48, 123, 82, 0.05) 0%, rgba(85, 167, 89, 0.05) 100%); border-radius: 16px; border: 1px solid rgba(48, 123, 82, 0.2);">
+            <h3 style="color: #307B52; font-size: 1.8rem; margin-bottom: 2rem; text-align: center;">🏆 수상 및 인증</h3>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem;">
+                <div style="padding: 1.5rem; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(48, 123, 82, 0.08); border-left: 4px solid #307B52;">
+                    <h4 style="color: #307B52; margin-bottom: 0.5rem;">✅ 현대해상 씨앗 지원사업</h4>
+                    <p style="color: #666;">소셜벤처 육성 프로그램 선정</p>
+                </div>
+                <div style="padding: 1.5rem; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(48, 123, 82, 0.08); border-left: 4px solid #55A759;">
+                    <h4 style="color: #307B52; margin-bottom: 0.5rem;">✅ 하나소셜벤처 유니버시티</h4>
+                    <p style="color: #666;">사회적 가치 창출 기업 인증</p>
+                </div>
+                <div style="padding: 1.5rem; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(48, 123, 82, 0.08); border-left: 4px solid #307B52;">
+                    <h4 style="color: #307B52; margin-bottom: 0.5rem;">✅ 스타트업 영그라운드</h4>
+                    <p style="color: #666;">청년 창업 우수 스타트업 선정</p>
+                </div>
+                <div style="padding: 1.5rem; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(48, 123, 82, 0.08); border-left: 4px solid #55A759;">
+                    <h4 style="color: #307B52; margin-bottom: 0.5rem;">✅ 가천대 인액터스</h4>
+                    <p style="color: #666;">Best Project 우수 프로젝트 선정</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>로디랩</h3>
+                <p>부모님의 디지털 일상을 함께하는<br>교육 혁신 기업입니다.</p>
+            </div>
+            <div class="footer-section">
+                <h3>빠른 링크</h3>
+                <p><a href="/brand_page.html">로디랩 소개</a></p>
+                <p><a href="/package_page.html">패키지 소개</a></p>
+                <p><a href="/review_page.html">서비스 리뷰</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>문의</h3>
+                <p>이메일: </p>
+                <p>전화: 010-0000-0000</p>
+                <p>주소: 성남시 수정구</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 로디랩(RODILAB). All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
