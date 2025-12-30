@@ -15,12 +15,13 @@
             font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
             line-height: 1.6;
             color: #333;
+            background: #fafafa;
         }
 
         /* 네비게이션 */
         nav {
             background: #fff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -38,6 +39,14 @@
         .logo {
             font-size: 1.8rem;
             font-weight: bold;
+            color: #307B52;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .logo:visited,
+        .logo:hover,
+        .logo:active {
             color: #307B52;
             text-decoration: none;
         }
@@ -93,8 +102,7 @@
             color: #307B52;
         }
 
-        .nav-menu > li:hover .dropdown,
-        .dropdown:hover {
+        .nav-menu > li:hover .dropdown {
             display: block;
         }
 
@@ -160,6 +168,8 @@
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(48, 123, 82, 0.15);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-size: cover;
+            background-position: center;
         }
 
         .review-card:hover {
@@ -168,14 +178,31 @@
         }
 
         .review-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, #307B52 0%, #55A759 100%);
-            z-index: 1;
+            display: none;
+        }
+
+        .review-card:nth-child(1) {
+            background-image: url('images/review_1.jpeg');
+        }
+
+        .review-card:nth-child(2) {
+            background-image: url('images/review_2.jpeg');
+        }
+
+        .review-card:nth-child(3) {
+            background-image: url('images/review_3.jpg');
+        }
+
+        .review-card:nth-child(4) {
+            background-image: url('images/review_4.jpg');
+        }
+
+        .review-card:nth-child(5) {
+            background-image: url('images/review_5.jpeg');
+        }
+
+        .review-card:nth-child(6) {
+            background-image: url('images/review_6.jpg');
         }
 
         .review-overlay {
@@ -184,7 +211,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(48, 123, 82, 0.85);
+            background-color: rgba(0, 0, 0, 0.85);
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
@@ -209,9 +236,9 @@
             font-size: 14px;
             line-height: 1.5;
             display: -webkit-box;
-            -webkit-line-clamp: 3;
+            -webkit-line-clamp: 4;
             -webkit-box-orient: vertical;
-            line-clamp: 3;
+            line-clamp: 4;
             overflow: hidden;
         }
 
@@ -294,9 +321,7 @@
     <!-- 네비게이션 -->
     <nav>
         <div class="nav-container">
-            <a href="index.html" class="logo-link">
-                <div class="logo">RODILAB</div>
-            </a>
+            <a href="index.html" class="logo">RODILAB</a>
             <ul class="nav-menu">
                 <li>
                     <a href="brand_page.html">로디랩 소개</a>
@@ -321,7 +346,7 @@
                     </ul>
                 </li>
             </ul>
-            <a href="#" class="cta-button" onclick="openModal(); return false;">상담 신청</a>
+            <a href="consult_page.html" class="cta-button">상담 신청</a>
         </div>
     </nav>
 
@@ -337,48 +362,60 @@
             <!-- 리뷰 카드 1 -->
             <div class="review-card">
                 <div class="review-overlay">
-                    <div class="review-title">최고의 경험!</div>
-                    <div class="review-text">로디랩에서의 경험은 정말 최고였습니다. 전문적인 강사와 좋은 환경이 모두 갖춰져 있어요.</div>
+                    <div class="review-title">용기를 만들어준 교육</div>
+                    <div class="review-text">잘못 누르면 큰일날까봐, 무서워서 아무것도 못 눌렀는데, 옆에서 같이 봐주니까 용기 있게 눌러보고, <br> 배울 수 있었어요.
+                    손주한테 문자를 너무 보내고 <br>싶었는데, 이젠 혼자서도 보낼 수 있어요.</div>
                 </div>
             </div>
 
             <!-- 리뷰 카드 2 -->
             <div class="review-card">
                 <div class="review-overlay">
-                    <div class="review-title">추천합니다!</div>
-                    <div class="review-text">친절한 로디쌤과 함께 배우니까 정말 효과적입니다. 모두에게 강력 추천드려요.</div>
+                    <div class="review-title">우물 안 개구리였던 나를, <br>세상 밖으로 꺼내준 교육</div>
+                    <div class="review-text">로디랩이 천천히, 꼼꼼하게 가르쳐줘서 너무 잘 배울 수 있었어요. 이젠 사진도 잘 찍고, 동네 분들한테<br>
+                        알려드리기도 하는 정도에요. <br> 아이에서 성인으로 성장한 기분이 들어요!
+                    </div>
                 </div>
             </div>
 
             <!-- 리뷰 카드 3 -->
             <div class="review-card">
                 <div class="review-overlay">
-                    <div class="review-title">변화를 느꼈어요</div>
-                    <div class="review-text">짧은 기간에도 눈에 띄는 변화를 느낄 수 있었습니다. 정말 감사합니다!</div>
+                    <div class="review-title">이루 말할 수 없이 좋았던 교육</div>
+                    <div class="review-text">그동안 기회가 없어서, 이런 교육을 듣지 못햇었는데, <br>들을 수 있어 너무 좋았어요.
+                        이제 손주들이랑 카톡도 <br>빠르게 주고 받을 수 있어서 매우 기쁘고, 행복합니다.
+                    </div>
                 </div>
             </div>
 
             <!-- 리뷰 카드 4 -->
             <div class="review-card">
                 <div class="review-overlay">
-                    <div class="review-title">전문성이 돋보여요</div>
-                    <div class="review-text">로디쌤의 전문적인 지도 덕분에 목표를 달성할 수 있었습니다. 정말 감사합니다!</div>
+                    <div class="review-title">스마트폰, 이제 혼자서도 <br>자신있게 쓸 수 있을 거 같아요</div>
+                    <div class="review-text">평소에 스마트폰으로 전화 밖에 사용하지 못해서, 많이 <br>답답했어요. 로디랩 교육을 통해
+                        문자, 카톡도 자신있게 할 수 있고, 네이버 지도와 같은 유용한 앱도 잘 쓰고 <br>있어요. 요즘은 제가 친구들을 알려주곤 해요!
+                    </div>
                 </div>
             </div>
 
             <!-- 리뷰 카드 5 -->
             <div class="review-card">
                 <div class="review-overlay">
-                    <div class="review-title">최고의 선택</div>
-                    <div class="review-text">로디랩을 선택한 것이 최고의 선택이었습니다. 누구에게나 추천할 수 있어요.</div>
+                    <div class="review-title">내 생활을 바꿨던 수업</div>
+                    <div class="review-text">사진을 문자로 어떻게 보내는 지를 몰라서 집 수리 의뢰를 계속 못하고 있었어요.
+                        그래서 불편해도 꾹 참고 계속 <br>버텼는데, 수업을 듣고, 수리 의뢰를 혼자서 할 수 있게 <br>되어 너무 다행이었고,
+                        좋은 수업 너무 감사해요.
+                    </div>
                 </div>
             </div>
 
             <!-- 리뷰 카드 6 -->
             <div class="review-card">
                 <div class="review-overlay">
-                    <div class="review-title">정말 추천해요</div>
-                    <div class="review-text">모든 면에서 만족스러운 경험이었습니다. 정말 최고의 곳이에요!</div>
+                    <div class="review-title">실생활에 너무 유용했던 수업</div>
+                    <div class="review-text">그동안 스마트폰 교육을 몇 번 들었었는데, 전부 도움이 안 됐어요.
+                        로디랩 수업은 실생활에 필요한 것들을 <br>차근차근 알려주니까 실제로도 너무 편리한 생활을 <br>보내고 있어요.
+                    </div>
                 </div>
             </div>
         </div>
@@ -393,15 +430,13 @@
             </div>
             <div class="footer-section">
                 <h3>빠른 링크</h3>
-                <p><a href="/brand_page.html">로디랩 소개</a></p>
-                <p><a href="/package_page.html">패키지 소개</a></p>
-                <p><a href="/review_page.html">서비스 리뷰</a></p>
+                <p><a href="brand_page.html">로디랩 소개</a></p>
+                <p><a href="package_page.html">패키지 소개</a></p>
+                <p><a href="review_page.html">서비스 리뷰</a></p>
             </div>
-            <div class="footer-section">
+            <div class="footer-section contact-section">
                 <h3>문의</h3>
-                <p>이메일: </p>
-                <p>전화: 010-0000-0000</p>
-                <p>주소: 성남시 수정구</p>
+                <p class="contact-phone">010-5946-1124</p>
             </div>
         </div>
         <div class="footer-bottom">
