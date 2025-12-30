@@ -38,7 +38,15 @@
         .logo {
             font-size: 1.8rem;
             font-weight: bold;
-            color: #2D8659;
+            color: #307B52;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .logo:visited,
+        .logo:hover,
+        .logo:active {
+            color: #307B52;
             text-decoration: none;
         }
 
@@ -93,8 +101,7 @@
             color: #2D8659;
         }
 
-        .nav-menu > li:hover .dropdown,
-        .dropdown:hover {
+        .nav-menu > li:hover .dropdown {
             display: block;
         }
 
@@ -230,30 +237,52 @@
         }
 
         .difference-item {
-            display: flex;
-            gap: 1.5rem;
-            padding: 2rem;
-            background: #f0f9f4;
+            background: white;
             border-radius: 12px;
-            border-left: 4px solid #2D8659;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .difference-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(45, 134, 89, 0.2);
+        }
+
+        .difference-image {
+            width: 100%;
+            height: 380px;
+            overflow: hidden;
+            background: #f0f9f4;
+        }
+
+        .difference-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .difference-content {
+            padding: 2rem;
         }
 
         .difference-number {
             font-size: 2.5rem;
             font-weight: bold;
             color: #2D8659;
-            min-width: 50px;
+            margin-bottom: 0.5rem;
         }
 
         .difference-content h3 {
             color: #333;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
             font-size: 1.3rem;
         }
 
         .difference-content p {
             color: #666;
             line-height: 1.7;
+            font-size: 0.95rem;
         }
 
         /* 푸터 */
@@ -322,9 +351,7 @@
     <!-- 네비게이션 -->
     <nav>
         <div class="nav-container">
-            <a href="index.html" class="logo-link">
-                <div class="logo">RODILAB</div>
-            </a>
+            <a href="index.html" class="logo">RODILAB</a>
             <ul class="nav-menu">
                 <li>
                     <a href="brand_page.html">로디랩 소개</a>
@@ -349,7 +376,7 @@
                     </ul>
                 </li>
             </ul>
-            <a href="#" class="cta-button" onclick="openModal(); return false;">상담 신청</a>
+            <a href="consult_page.html" class="cta-button">상담 신청</a>
         </div>
     </nav>
 
@@ -377,8 +404,8 @@
                     단순한 기술 교육을 넘어, 시니어 세대가 디지털 사회에서 소외되지 않고 자신감을 가질 수 있도록 돕는 것이 우리의 목표입니다.
                 </p>
                 <p>
-                    대학생 튜터가 직접 찾아가는 방문 교육, 1:1 또는 소그룹 맞춤형 교육 형태, 자체 제작 학습지와 다양한 컨텐츠를 통한 체계적 학습 지원으로 
-                    높은 교육 만족도와 실질적인 디지털 역량 향상을 이끌어내고 있습니다.
+                    대학생 튜터가 직접 찾아가는 방문 교육, 1:1 또는 소그룹 맞춤형 교육 형태, 자체 제작 학습지와 다양한 컨텐츠를 
+                    <br>통한 체계적 학습 지원으로 높은 교육 만족도와 실질적인 디지털 역량 향상을 이끌어내고 있습니다.
                 </p>
             </div>
         </div>
@@ -390,19 +417,12 @@
                 <p>
                     시니어 세대가 디지털 시대에서 소외되지 않고, 자녀·손주를 포함한 다양한 사회구성원과 
                     자유롭게 소통하며, 일상생활에서 디지털 도구를 자신감 있게 활용할 수 있도록 돕습니다.
-                    <br><br>
-                    스마트폰 사용, 카카오톡, 모바일뱅킹, 지도 앱, 온라인 예매 등 실생활에 필요한 디지털 기술을 
-                    누구나 쉽고 편하게 배울 수 있는 환경을 만듭니다.
                 </p>
             </div>
             <div class="mv-card">
                 <h3>🌟 Vision</h3>
                 <p>
-                    교육을 통해 시니어가 사회에 적극적으로 참여할 수 있는 시스템을 구축합니다. 
-                    <br><br>
-                    청년 세대가 제공하는 맞춤형 교육을 통해, 디지털 역량을 향상시키고,
-                    세대 간 소통과 이해를 증진하며, 이를 통해 시니어가 디지털 사회에 자연스레
-                    녹아들 수 있게끔 합니다.
+                    맞춤형 교육을 통해 시니어가 사회에 적극적으로 참여할 수 있는 <br>시스템을 구축합니다. 
                 </p>
             </div>
         </div>
@@ -411,31 +431,43 @@
         <h3 class="differences-title">브랜드 강점 및 차별점</h3>
         <div class="difference-grid">
             <div class="difference-item">
-                <div class="difference-number">01</div>
+                <div class="difference-image">
+                    <img src="./images/bra_brand_1.jpg" alt="1:1 또는 1:3 맞춤형 교육">
+                </div>
                 <div class="difference-content">
+                    <div class="difference-number">01</div>
                     <h3>1:1 또는 1:3 맞춤형 교육</h3>
-                    <p>개인의 수준과 속도에 맞춘 소그룹 교육으로 이해도를 높입니다. 대규모 강의가 아닌 밀착 케어로 한 분, 한 분의 성장을 책임집니다.</p>
+                    <p>개인의 수준과 속도에 맞춘 소그룹 교육으로 이해도를 높입니다. <br>대규모 강의가 아닌 밀착 케어로 한 분, 한 분의 성장을 책임집니다.</p>
                 </div>
             </div>
             <div class="difference-item">
-                <div class="difference-number">02</div>
+                <div class="difference-image">
+                    <img src="./images/bra_brand_2.jpg" alt="찾아가는 방문 교육">
+                </div>
                 <div class="difference-content">
+                    <div class="difference-number">02</div>
                     <h3>찾아가는 방문 교육</h3>
-                    <p>가정, 복지관, 경로당 등 익숙한 공간에서 편안하게 배울 수<br> 있습니다. 이동의 번거로움을 해소합니다.</p>
+                    <p>가정, 복지관, 경로당 등 익숙한 공간에서 편안하게 배울 수 있습니다.<br> 이동의 번거로움을 해소합니다.</p>
                 </div>
             </div>
             <div class="difference-item">
-                <div class="difference-number">03</div>
+                <div class="difference-image">
+                    <img src="./images/bra_brand_3.jpg" alt="철저한 복습이 가능한 컨텐츠">
+                </div>
                 <div class="difference-content">
+                    <div class="difference-number">03</div>
                     <h3>철저한 복습이 가능한 컨텐츠</h3>
-                    <p>복습과 반복 학습이 가능한 체계적인 컨텐츠를 제공합니다. <br>수업 후에도 집에서 혼자 다시 풀어볼 수 있는 다양한 컨텐츠를 <br>제공합니다.</p>
+                    <p>복습과 반복 학습이 가능한 체계적인 컨텐츠를 제공합니다. 수업 후에도 <br>집에서 혼자 다시 풀어볼 수 있는 다양한 컨텐츠를 제공합니다.</p>
                 </div>
             </div>
             <div class="difference-item">
-                <div class="difference-number">04</div>
+                <div class="difference-image">
+                    <img src="./images/bra_brand_4.jpg" alt="생활 밀착형 커리큘럼">
+                </div>
                 <div class="difference-content">
+                    <div class="difference-number">04</div>
                     <h3>생활 밀착형 커리큘럼</h3>
-                    <p>스마트폰 기초, 카카오톡, 지도, 온라인 예매 등 실생활에 바로 적용 가능한 내용을 다룹니다. 이론이 아닌 실전 중심 교육을 <br> 제공합니다.</p>
+                    <p>스마트폰 기초, 카카오톡, 지도, 온라인 예매 등 실생활에 바로 적용 가능한 내용을 다룹니다. 이론이 아닌 실전 중심 교육을 제공합니다.</p>
                 </div>
             </div>
         </div>
@@ -450,15 +482,13 @@
             </div>
             <div class="footer-section">
                 <h3>빠른 링크</h3>
-                <p><a href="/brand_page.html">로디랩 소개</a></p>
-                <p><a href="/package_page.html">패키지 소개</a></p>
-                <p><a href="/review_page.html">서비스 리뷰</a></p>
+                <p><a href="brand_page.html">로디랩 소개</a></p>
+                <p><a href="package_page.html">패키지 소개</a></p>
+                <p><a href="review_page.html">서비스 리뷰</a></p>
             </div>
-            <div class="footer-section">
+            <div class="footer-section contact-section">
                 <h3>문의</h3>
-                <p>이메일: </p>
-                <p>전화: 010-0000-0000</p>
-                <p>주소: 성남시 수정구</p>
+                <p class="contact-phone">010-5946-1124</p>
             </div>
         </div>
         <div class="footer-bottom">
