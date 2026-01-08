@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로디랩 - 부모님을 위한 디지털 교육</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .logo-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .logo-link:hover {
+            opacity: 0.8;
+        }
+
+        .logo-img {
+            height: 50px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        /* 네비게이션 */
+        nav {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #307B52;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu > li {
+            position: relative;
+        }
+
+        .nav-menu > li > a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu > li > a:hover {
+            color: #307B52;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            min-width: 180px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+        }
+
+        .dropdown li {
+            list-style: none;
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.7rem 1.5rem;
+            color: #555;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .dropdown a:hover {
+            background: #f3f9f5;
+            color: #307B52;
+        }
+
+        .nav-menu > li:hover .dropdown {
+            display: block;
+        }
+
+        .cta-button {
+            background: #307B52;
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .cta-button:hover {
+            background: #264A3A;
+        }
+
+        /* 배너 슬라이더 */
+        .banner-slider {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+        }
+
+        .banner-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+
+        .banner-slide.active {
+            opacity: 1;
+            z-index: 10;
+        }
+
+        .banner-slide:nth-child(1) {
+            background-image: 
+                linear-gradient(135deg, rgba(13, 31, 13, 0.65) 0%, rgba(0, 0, 0, 0.7) 100%),
+                url('./images/main_1.JPG');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .banner-slide:nth-child(2) {
+            background-image: 
+                linear-gradient(135deg, rgba(13, 31, 13, 0.65) 0%, rgba(0, 0, 0, 0.7) 100%),
+                url('./images/main_2.JPG');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .banner-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .banner-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* ===== 스크롤 애니메이션 스타일 ===== */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stagger-item {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .stagger-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 각 항목들이 순차적으로 나타나도록 */
+        .stagger-item:nth-child(1) { transition-delay: 0s; }
+        .stagger-item:nth-child(2) { transition-delay: 0.15s; }
+        .stagger-item:nth-child(3) { transition-delay: 0.3s; }
+        .stagger-item:nth-child(4) { transition-delay: 0.45s; }
+        .stagger-item:nth-child(5) { transition-delay: 0.6s; }
+
+        /* 섹션 공통 스타일 */
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #307B52;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 3rem;
+        }
+
+        /* 섹션 1: 부모님의 어려움 */
+        .difficulty-section {
+            background: #f9f9f9;
+        }
+
+        .difficulty-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .difficulty-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .difficulty-card h3 {
+            color: #307B52;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        /* 섹션 2: 4가지 차별점 */
+        .difference-section {
+            background: white;
+        }
+
+        .difference-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .difference-item {
+            display: flex;
+            gap: 1.5rem;
+            padding: 2rem;
+            background: #f3f9f5;
+            border-radius: 12px;
+            border-left: 4px solid #307B52;
+        }
+
+        .difference-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #307B52;
+            min-width: 50px;
+        }
+
+        .difference-content h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        /* 섹션 3: 로디쌤 소개 */
+        .teacher-section {
+            background: linear-gradient(135deg, #307B52 0%, #55A759 100%);
+            color: white;
+            max-width: 100vw;
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            padding: 5rem 2rem;
+        }
+
+        .teacher-section .teacher-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .teacher-content {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .teacher-image {
+            width: 480px;
+            height: 400px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .teacher-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .teacher-text h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .teacher-text ul {
+            list-style: none;
+            font-size: 1.2rem;
+            line-height: 2.2;
+        }
+
+        .teacher-text ul li:before {
+            content: "✓ ";
+            margin-right: 0.5rem;
+        }
+
+        /* 섹션 4: 실적 및 협업 */
+        .achievement-section {
+            background: white;
+        }
+
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .achievement-card {
+            text-align: center;
+            padding: 2rem;
+            background: #f9f9f9;
+            border-radius: 12px;
+        }
+
+        .achievement-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #307B52;
+            margin-bottom: 1rem;
+        }
+
+        .achievement-card h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .achievement-card p {
+            color: #666;
+        }
+
+        /* 리뷰 슬라이더 */
+        .review-slider-container {
+            margin-top: 3rem;
+            position: relative;
+            background: #f3f9f5;
+            border-radius: 12px;
+            border-left: 4px solid #307B52;
+            padding: 1.5rem;
+            min-height: auto;
+        }
+
+        .review-slider {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .review-slide {
+            position: absolute;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .review-slide.active {
+            opacity: 1;
+            position: relative;
+        }
+
+        .review-slide p {
+            font-size: 1.25rem;
+            color: #333;
+            line-height: 1.8;
+            margin: 0;
+            text-align: center;
+        }
+
+        .review-slide strong {
+            color: #307B52;
+        }
+
+        .review-slide span {
+            color: #666;
+            font-size: 0.95rem;
+            display: block;
+            margin-top: 1rem;
+        }
+
+        .review-controls {
+            display: none;
+        }
+
+        .review-btn {
+            background: #307B52;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .review-btn:hover {
+            background: #264A3A;
+        }
+
+        .review-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ddd;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .dot.active {
+            background: #307B52;
+        }
+
+        /* 섹션 5: 패키지 소개 */
+        .package-section {
+            background: #f9f9f9;
+        }
+
+        .package-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .package-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            cursor: pointer;
+        }
+
+        .package-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .package-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #307B52 0%, #55A759 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            overflow: hidden;
+        }
+
+        .package-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .package-content {
+            padding: 2rem;
+        }
+
+        .package-content h3 {
+            color: #307B52;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .package-content p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* 상담 신청 모달 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 3rem;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+        .modal-content h2 {
+            color: #307B52;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-button {
+            width: 100%;
+            background: #307B52;
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .submit-button:hover {
+            background: #264A3A;
+        }
+
+        /* 푸터 */
+        footer {
+            background: #1a1a1a;
+            color: #ccc;
+            padding: 3rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+        }
+
+        .footer-section h3 {
+            color: #307B52;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #999;
+            text-decoration: none;
+            line-height: 2;
+        }
+
+        .footer-section a:hover {
+            color: #307B52;
+        }
+
+        /* 문의 섹션 특별 스타일 */
+        .contact-section {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            text-align: left;
+        }
+
+        .contact-label {
+            display: none;
+        }
+
+        .contact-phone {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #55A759;
+            text-decoration: none;
+            cursor: pointer;
+            margin: 0;
+            line-height: 1;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+            color: #666;
+        }
+
+        /* br 태그 관련 */
+        br.mob-only {
+            display: none;  /* 기본값: PC에서는 숨김 */
+        }
+
+        br.pc-only {
+                display: block;
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .banner-content h1 {
+                font-size: 2rem;
+            }
+
+            .difference-grid,
+            .achievement-grid,
+            .package-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .teacher-content {
+                flex-direction: column;
+            }
+
+            .teacher-image {
+                width: 100%;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-phone {
+                font-size: 1.5rem;
+            }
+
+            br.mob-only {
+                display: block;  /* 모바일: 줄바꿈 됨 */
+            }
+
+            br.pc-only {
+                display: none;  /* 모바일: 줄바꿈 됨 */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 네비게이션 -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">RODILAB</div>
+            <ul class="nav-menu">
+                <li>
+                    <a href="brand_page.html">로디랩 소개</a>
+                    <ul class="dropdown">
+                        <li><a href="brand_page.html">브랜드 소개</a></li>
+                        <li><a href="activities_page.html">활동 내역</a></li>
+                        <li><a href="teacher_page.html">로디쌤</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="package_page.html">패키지 소개</a>
+                    <ul class="dropdown">
+                        <li><a href="package_page.html">패키지 소개</a></li>
+                        <li><a href="contents_page.html">구성 소개</a></li>
+                        <li><a href="enterprise_page.html">기업 전용</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="review_page.html">리뷰</a>
+                    <ul class="dropdown">
+                        <li><a href="review_page.html">서비스 리뷰</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <a href="consult_page.html" class="cta-button">상담 신청</a>
+        </div>
+    </nav>
+
+    <!-- 메인 배너 -->
+    <div class="banner-slider">
+        <div class="banner-slide active">
+            <div class="banner-content">
+                <h1>선착순! 무료 교육 진행 중</h1>
+                <p>로디랩의 교육을 체험해보고 싶다면 신청하세요!</p>
+                <a href="consult_page.html" class="cta-button"> 무료 교육 신청하기</a>
+            </div>
+        </div>
+        <div class="banner-slide">
+            <div class="banner-content">
+                <h1>천천히, 반복하며, <br class="mob-only"> 이해될 때까지</h1>
+                <p>부모님만을 위한 시니어 맞춤 디지털 교육 서비스</p>
+                <a href="brand_page.html" class="cta-button"> 자세히 알아보기</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 섹션 1: 부모님의 어려움 -->
+    <section class="section difficulty-section fade-in-up" id="brand">
+        <h2 class="section-title">우리도 몰랐던 <br class="mob-only">부모님의 어려움</h2>
+        <p class="section-subtitle">디지털 일상화 속에서 <br class="mob-only">시니어 세대가 겪는 디지털 격차</p>
+        <div class="difficulty-grid">
+            <div class="difficulty-card stagger-item">
+                <h3>💳 금융 생활</h3>
+                <p>ATM과 모바일뱅킹 사용이<br> 어려워 <strong>은행 창구에 직접<br> 가야 하는 불편함</p></strong>
+            </div>
+            <div class="difficulty-card stagger-item">
+                <h3>📱 소통의 벽</h3>
+                <p>카카오톡, 영상통화 등 자녀<br>손주와 <strong>소통하기 위한 기본 <br>앱도 어렵게만 느껴짐</p></strong>
+            </div>
+            <div class="difficulty-card stagger-item">
+                <h3>🎫 일상의 제약</h3>
+                <p>지도 앱, 기차표·영화표 예매, <br>키오스크 등 <strong>일상적 디지털<br> 서비스 이용의 어려움</p></strong>
+            </div>
+            <div class="difficulty-card stagger-item">
+                <h3>😔 사회적 단절</h3>
+                <p>정보 접근성 격차로 인한 <br> <strong>디지털 사회에서의<br> 소외 및 고립</p></strong>
+            </div>
+        </div>
+    </section>
+
+    <!-- 섹션 2: 4가지 차별점 -->
+    <section class="section difference-section fade-in-up">
+        <h2 class="section-title">로디랩만의 4가지 <br class="mob-only">차별점</h2>
+        <p class="section-subtitle">부모님께 가장 적합한 디지털 교육</p>
+        <div class="difference-grid">
+            <div class="difference-item stagger-item">
+                <div class="difference-number">01</div>
+                <div class="difference-content">
+                    <h3>1:1 또는 1:3 <br class="mob-only">맞춤형 교육</h3>
+                    <p>개인의 눈높이에 맞춘 <br class="mob-only">교육 속도와 소그룹 집중 교육<br class="mob-only">을 통해 <br>이해도를 높입니다.</p>
+                </div>
+            </div>
+            <div class="difference-item stagger-item">
+                <div class="difference-number">02</div>
+                <div class="difference-content">
+                    <h3>찾아가는 방문 교육</h3>
+                    <p>가정이나 복지관 등 시니어가 원하는 익숙한 공간에서<br class="mob-only"> 편안하게 <br class="pc-only">배울 수 있습니다.</p>
+                </div>
+            </div>  
+            <div class="difference-item stagger-item">
+                <div class="difference-number">03</div>
+                <div class="difference-content">
+                    <h3>철저한 복습이 가능한 컨텐츠</h3>
+                    <p>복습과 반복 학습이 가능한<br class="mob-only"> 체계적인 교육 자료를 <br class="mob-only">제공합니다.
+                        <br>타 디지털 교육과는 현저히 <br class="mob-only">다른 디지털 역량 향상을<br class="mob-only"> 보장합니다.
+                    </p>
+                </div>
+            </div>
+            <div class="difference-item stagger-item">
+                <div class="difference-number">04</div>
+                <div class="difference-content">
+                    <h3>생활 밀착형 커리큘럼</h3>
+                    <p>스마트폰 기초, 카카오톡, <br class="mob-only">지도, 온라인 예매 실생활에 바로 적용 가능한 커리큘럼을 제공합니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 섹션 3: 로디쌤 소개 -->
+    <section class="section teacher-section fade-in-up" id="teacher">
+        <h2 class="section-title" style="color: white;">대학생 튜터, 로디쌤</h2>
+        <p class="section-subtitle" style="color: rgba(255,255,255,0.9);"> 청년과 시니어의 따뜻한 교류 </p>
+        <div class="teacher-content">
+            <div class="teacher-image">
+                <img src="./images/teacher_1.JPG" alt="로디쌤 교육 현장">
+            </div>
+            <div class="teacher-text">
+                <h3>로디쌤이 특별한 이유</h3>
+                <ul>
+                    <li>철저한 2차 검증과 양성 과정을 거친<br class="mob-only"> 선생님들로만 활동</li>
+                    <li>시니어 교육에 열정이 있고, 디지털 기기를 잘 다루는 청년들로 구성</li>
+                    <li>부모님 눈높이에 맞춘 친근하고 인내심 있는 교육</li>
+                    <li>단순 기술 전달에서만 그치지 않고, <br class="mob-only">정서적 교감을 나누는 멘토</li>
+                    <li>복지관, 경로당, 가정 등 시니어가 <br class="mob-only">편한 장소 어디든 직접 방문</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 섹션 4: 실적 및 협업 -->
+    <section class="section achievement-section fade-in-up" id="review">
+        <h2 class="section-title">검증된 교육 효과</h2>
+        <p class="section-subtitle">초기 단계부터 현재까지 로디랩이 거둔 성과</p>
+        <div class="achievement-grid">
+            <div class="achievement-card stagger-item">
+                <div class="achievement-number">250%</div>
+                <h3>디지털 역량 향상</h3>
+                <p>교육 참가자의 디지털 역량이 <br>평균 <strong>2.5단계 상승</p></strong>
+            </div>
+            <div class="achievement-card stagger-item">
+                <div class="achievement-number">50+</div>
+                <h3>누적 교육 인원</h3>
+                <p>성남 지역 복지관 및 경로당 중심 <br><strong>50명 이상의 교육 경험</p></strong>
+            </div>
+            <div class="achievement-card stagger-item">
+                <div class="achievement-number">4개</div>
+                <h3>창업 지원 프로그램 선정</h3>
+                <p><strong>현대해상, 하나소셜벤처, 경기도청</strong> <br class="mob-only">등에서<br class="pc-only"> 인정 받은 팀</p>
+            </div>
+        </div>
+
+        <!-- 리뷰 슬라이더 -->
+        <div class="review-slider-container fade-in-up">
+            <div class="review-slider" id="reviewSlider">
+                <div class="review-slide active">
+                    <p><strong>"스마트폰을 배우고도 금방 잊어버렸는데, 학습지를 통해 반복하다 보니 기억이 잘 되고, 제가 들었던 교육 중에 가장 효과적이었어요."</strong>
+                    <span>- 성남 산성종합사회복지관 수강생</span></p>
+                </div>
+                <div class="review-slide">
+                    <p><strong>"처음에는 버튼을 누르는 게 무서웠는데, 로디쌤이 옆에서 친절하게 설명해주니까 이제는 하나도 안 무섭고, 자유자재로 다룰 수 있어요!"</strong>
+                    <span>- 성남 마크뷰경로당 수강생</span></p>
+                </div>
+                <div class="review-slide">
+                    <p><strong>"로디랩 덕분에 지도 앱으로 길을 찾을 수 있게 됐고, 기차표도 혼자서 예매했어요. 이제 혼자 외출하는 게 너무 편해졌습니다."</strong>
+                    <span>- 성남 야탑유스센터 수강생</span></p>
+                </div>
+            </div>
+
+            <div class="review-controls">
+                <button class="review-btn" onclick="previousReview()">이전</button>
+                <button class="review-btn" onclick="nextReview()">다음</button>
+            </div>
+
+            <div class="review-dots">
+                <span class="dot active" onclick="goToReview(0)"></span>
+                <span class="dot" onclick="goToReview(1)"></span>
+                <span class="dot" onclick="goToReview(2)"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 섹션 5: 패키지 소개 -->
+    <section class="section package-section fade-in-up" id="package">
+        <h2 class="section-title">부모님께 딱 맞는 <br class="mob-only">패키지</h2>
+        <p class="section-subtitle">내가 원하는대로 선택할 수 있는<br class="mob-only"> 다양한 패키지</p>
+        <div class="package-grid">
+            <a href="#package" class="package-card stagger-item">
+                <div class="package-image"><img src="./images/package_1.jpeg" alt="1:1 12회차 패키지"></div>
+                <div class="package-content">
+                    <h3>[1:1] 12회차 패키지</h3>
+                    <p>스마트폰 기초부터 카카오톡까지 일상생활 <br>필수 디지털 스킬을 확실하게 배웁니다.</p>
+                </div>
+            </a>
+            <a href="#package" class="package-card stagger-item">
+                <div class="package-image"><img src="./images/package_2.jpeg" alt="1:1 24회차 패키지"></div>
+                <div class="package-content">
+                    <h3>[1:1] 24회차 패키지</h3>
+                    <p>기본 패키지 전 내용을 학습하여 독립적인 <br> 디지털 생활을 위한 심화 교육이 가능합니다.</p>
+                </div>
+            </a>
+            <a href="#package" class="package-card stagger-item">
+                <div class="package-image"><img src="./images/package_3.jpeg" alt="1:3 15회차 패키지"></div>
+                <div class="package-content">
+                    <h3>[1:3] 15회차 패키지</h3>
+                    <p>친구들과 함께 모여서 조금 더 저렴하게, <br>로디랩의 패키지를 즐길 수 있습니다.</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>로디랩</h3>
+                <p>부모님의 디지털 일상을 함께하는<br>교육 혁신 기업입니다.</p>
+            </div>
+            <div class="footer-section">
+                <h3>빠른 링크</h3>
+                <p><a href="#brand">로디랩 소개</a></p>
+                <p><a href="#package">패키지 소개</a></p>
+                <p><a href="#review">서비스 리뷰</a></p>
+            </div>
+            <div class="footer-section contact-section">
+                <h3>문의</h3>
+                <p class="contact-phone">010-5946-1124</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 로디랩(RODILAB). All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // ===== 스크롤 애니메이션 ===== 
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // fade-in-up 애니메이션 대상 감시
+        document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+        
+        // stagger-item 애니메이션 대상 감시
+        document.querySelectorAll('.stagger-item').forEach(el => observer.observe(el));
+
+        // ===== 리뷰 슬라이더 =====
+        let currentReview = 0;
+        const reviews = document.querySelectorAll('.review-slide');
+        const totalReviews = reviews.length;
+
+        function showReview(n) {
+            reviews.forEach(review => review.classList.remove('active'));
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            currentReview = (n + totalReviews) % totalReviews;
+            reviews[currentReview].classList.add('active');
+            dots[currentReview].classList.add('active');
+        }
+
+        function nextReview() {
+            showReview(currentReview + 1);
+        }
+
+        function previousReview() {
+            showReview(currentReview - 1);
+        }
+
+        function goToReview(n) {
+            showReview(n);
+        }
+
+        // 자동 슬라이드
+        setInterval(() => {
+            nextReview();
+        }, 3000);
+
+        // ===== 배너 슬라이더 =====
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.banner-slide');
+        
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+        
+        setInterval(() => {
+            showSlide(currentSlide + 1);
+        }, 5000);    
+        
+        // 부드러운 스크롤
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && document.querySelector(href)) {
+                    e.preventDefault();
+                    document.querySelector(href).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
