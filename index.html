@@ -40,7 +40,7 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
-            z-index: 1000;
+            z-index: 100;
         }
 
         .nav-container {
@@ -56,6 +56,20 @@
             font-size: 1.8rem;
             font-weight: bold;
             color: #307B52;
+            flex-shrink: 0;
+        }
+
+        .nav-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-shrink: 0;
         }
 
         .nav-menu {
@@ -113,6 +127,23 @@
             display: block;
         }
 
+        .cta-button {
+            background: #307B52;
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .cta-button:hover {
+            background: #264A3A;
+        }
+
         /* 햄버거 메뉴 버튼 */
         .hamburger {
             display: none;
@@ -144,28 +175,43 @@
             transform: rotate(-45deg) translate(7px, -7px);
         }
 
-        /* 모바일 사이드 메뉴 */
-        .mobile-menu {
+        /* 오버레이 */
+        .menu-overlay {
             display: none;
             position: fixed;
             top: 0;
-            left: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 998;
+        }
+
+        .menu-overlay.active {
+            display: block;
+        }
+
+        /* 모바일 사이드 메뉴 */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
             width: 80%;
             max-width: 300px;
             height: 100vh;
             background: white;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+            box-shadow: -2px 0 10px rgba(0,0,0,0.2);
             z-index: 999;
-            transition: left 0.3s ease;
+            transition: right 0.3s ease;
             overflow-y: auto;
         }
 
         .mobile-menu.active {
-            left: 0;
+            right: 0;
         }
 
         .mobile-menu-header {
-            padding: 1.5rem 1.5rem;
+            padding: 1.5rem;
             border-bottom: 1px solid #eee;
             display: flex;
             justify-content: space-between;
@@ -175,6 +221,7 @@
         .mobile-menu-header h3 {
             color: #307B52;
             font-size: 1.3rem;
+            margin: 0;
         }
 
         .close-mobile-menu {
@@ -204,18 +251,36 @@
             border-bottom: 1px solid #f0f0f0;
         }
 
-        .mobile-menu-list > li > a {
-            display: block;
-            padding: 1rem 1.5rem;
+        .menu-toggle {
+            background: none;
+            border: none;
             color: #333;
-            text-decoration: none;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             font-weight: 500;
             transition: background 0.3s;
         }
 
-        .mobile-menu-list > li > a:hover {
+        .menu-toggle:hover {
             background: #f3f9f5;
             color: #307B52;
+        }
+
+        .menu-toggle.active::after {
+            transform: rotate(180deg);
+        }
+
+        .menu-toggle::after {
+            content: "▼";
+            font-size: 0.7rem;
+            transition: transform 0.3s;
+            margin-left: auto;
         }
 
         .mobile-submenu {
@@ -247,34 +312,10 @@
             color: #307B52;
         }
 
-        .menu-toggle {
-            background: none;
-            border: none;
-            color: #333;
-            font-size: 1.2rem;
-            cursor: pointer;
-            width: 100%;
-            text-align: left;
-            padding: 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .menu-toggle.active::after {
-            transform: rotate(180deg);
-        }
-
-        .menu-toggle::after {
-            content: "▼";
-            font-size: 0.7rem;
-            transition: transform 0.3s;
-        }
-
         .mobile-menu-cta {
-            padding: 1rem 1.5rem;
-            margin: 1rem 0;
+            padding: 1.5rem;
             border-top: 1px solid #eee;
+            margin-top: 1rem;
         }
 
         .mobile-menu-cta a {
@@ -290,36 +331,6 @@
         }
 
         .mobile-menu-cta a:hover {
-            background: #264A3A;
-        }
-
-        /* 오버레이 */
-        .menu-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 998;
-        }
-
-        .menu-overlay.active {
-            display: block;
-        }
-
-        .cta-button {
-            background: #307B52;
-            color: white;
-            padding: 0.7rem 1.5rem;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: background 0.3s;
-        }
-
-        .cta-button:hover {
             background: #264A3A;
         }
 
@@ -400,7 +411,6 @@
             transform: translateY(0);
         }
 
-        /* 각 항목들이 순차적으로 나타나도록 */
         .stagger-item:nth-child(1) { transition-delay: 0s; }
         .stagger-item:nth-child(2) { transition-delay: 0.15s; }
         .stagger-item:nth-child(3) { transition-delay: 0.3s; }
@@ -731,94 +741,6 @@
             line-height: 1.8;
         }
 
-        /* 상담 신청 모달 */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 3rem;
-            border-radius: 16px;
-            max-width: 500px;
-            width: 90%;
-            position: relative;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 1rem;
-            right: 1.5rem;
-            font-size: 2rem;
-            cursor: pointer;
-            color: #999;
-        }
-
-        .close-modal:hover {
-            color: #333;
-        }
-
-        .modal-content h2 {
-            color: #307B52;
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #333;
-            font-weight: 500;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-family: inherit;
-        }
-
-        .form-group textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .submit-button {
-            width: 100%;
-            background: #307B52;
-            color: white;
-            padding: 1rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .submit-button:hover {
-            background: #264A3A;
-        }
-
         /* 푸터 */
         footer {
             background: #1a1a1a;
@@ -850,7 +772,6 @@
             color: #307B52;
         }
 
-        /* 문의 섹션 특별 스타일 */
         .contact-section {
             display: flex;
             flex-direction: column;
@@ -881,9 +802,8 @@
             color: #666;
         }
 
-        /* br 태그 관련 */
         br.mob-only {
-            display: none;  /* 기본값: PC에서는 숨김 */
+            display: none;
         }
 
         br.pc-only {
@@ -892,12 +812,12 @@
 
         /* 반응형 */
         @media (max-width: 768px) {
-            .hamburger {
-                display: flex;
+            .nav-center {
+                display: none;
             }
 
-            .nav-menu {
-                display: none;
+            .hamburger {
+                display: flex;
             }
 
             .banner-content h1 {
@@ -927,11 +847,11 @@
             }
 
             br.mob-only {
-                display: block;  /* 모바일: 줄바꿈 됨 */
+                display: block;
             }
 
             br.pc-only {
-                display: none;  /* 모바일: 줄바꿈 됨 */
+                display: none;
             }
         }
     </style>
@@ -960,52 +880,55 @@
                 <ul class="mobile-submenu">
                     <li><a href="package_page.html" onclick="closeMobileMenu()">패키지 소개</a></li>
                     <li><a href="contents_page.html" onclick="closeMobileMenu()">구성 소개</a></li>
-                    <li><a href="enterprise_page.html" onclick="closeMobileMenu()">기업 전용</a></li>
+                    <li><a href="enterprise_page.html" onclick="closeMobileMenu()">기관 전용</a></li>
                 </ul>
             </li>
             <li>
-                <a href="review_page.html" style="display: block; padding: 1rem 1.5rem; color: #333; text-decoration: none; font-weight: 500;" onclick="closeMobileMenu()">리뷰</a>
+                <a href="review_page.html" style="display: block; padding: 1rem 1.5rem; color: #333; text-decoration: none; font-weight: 500; transition: background 0.3s;" onmouseover="this.style.background='#f3f9f5'; this.style.color='#307B52';" onmouseout="this.style.background='white'; this.style.color='#333';" onclick="closeMobileMenu()">리뷰</a>
             </li>
         </ul>
-        <div class="mobile-menu-cta">
-            <a href="consult_page.html" onclick="closeMobileMenu()">상담 신청</a>
-        </div>
     </div>
 
     <!-- 네비게이션 -->
     <nav>
         <div class="nav-container">
-            <div class="logo">RODILAB</div>
-            <ul class="nav-menu">
-                <li>
-                    <a href="brand_page.html">로디랩 소개</a>
-                    <ul class="dropdown">
-                        <li><a href="brand_page.html">브랜드 소개</a></li>
-                        <li><a href="activities_page.html">활동 내역</a></li>
-                        <li><a href="teacher_page.html">로디쌤</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="package_page.html">패키지 소개</a>
-                    <ul class="dropdown">
-                        <li><a href="package_page.html">패키지 소개</a></li>
-                        <li><a href="contents_page.html">구성 소개</a></li>
-                        <li><a href="enterprise_page.html">기업 전용</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="review_page.html">리뷰</a>
-                    <ul class="dropdown">
-                        <li><a href="review_page.html">서비스 리뷰</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <button class="hamburger" id="hamburger" onclick="openMobileMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <a href="consult_page.html" class="cta-button">상담 신청</a>
+            <div class="logo">
+                <img src="./images/logo_1.png" alt="로디랩 로고" class="logo-img">
+            </div>
+            <div class="nav-center">
+                <ul class="nav-menu">
+                    <li>
+                        <a href="brand_page.html">로디랩 소개</a>
+                        <ul class="dropdown">
+                            <li><a href="brand_page.html">브랜드 소개</a></li>
+                            <li><a href="activities_page.html">활동 내역</a></li>
+                            <li><a href="teacher_page.html">로디쌤</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="package_page.html">패키지 소개</a>
+                        <ul class="dropdown">
+                            <li><a href="package_page.html">패키지 소개</a></li>
+                            <li><a href="contents_page.html">구성 소개</a></li>
+                            <li><a href="enterprise_page.html">기관 전용</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="review_page.html">리뷰</a>
+                        <ul class="dropdown">
+                            <li><a href="review_page.html">서비스 리뷰</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="nav-right">
+                <button class="hamburger" id="hamburger" onclick="openMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <a href="consult_page.html" class="cta-button">상담 신청</a>
+            </div>
         </div>
     </nav>
 
@@ -1260,10 +1183,7 @@
             });
         }, observerOptions);
 
-        // fade-in-up 애니메이션 대상 감시
         document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
-        
-        // stagger-item 애니메이션 대상 감시
         document.querySelectorAll('.stagger-item').forEach(el => observer.observe(el));
 
         // ===== 리뷰 슬라이더 =====
@@ -1293,7 +1213,6 @@
             showReview(n);
         }
 
-        // 자동 슬라이드
         setInterval(() => {
             nextReview();
         }, 3000);
