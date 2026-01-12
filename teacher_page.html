@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로디쌤 - RODILAB</title>
     <style>
+        /* ===== 3. 부드러운 스크롤 (필수 CSS) ===== */
+        html {
+            scroll-behavior: smooth;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -18,13 +23,14 @@
             background: #fafafa;
         }
 
-        /* 네비게이션 */
+        /* ===== 네비게이션 (index.html과 동일하게 수정됨) ===== */
         nav {
             background: #fff;
             box-shadow: 0 2px 10px rgba(0,0,0,0.08);
             position: sticky;
             top: 0;
-            z-index: 1000;
+            /* z-index 수정: 모바일 메뉴(999)보다 낮아야 함 */
+            z-index: 100; 
         }
 
         .nav-container {
@@ -40,15 +46,28 @@
             font-size: 1.8rem;
             font-weight: bold;
             color: #307B52;
+            flex-shrink: 0;
             text-decoration: none;
-            cursor: pointer;
         }
 
-        .logo:visited,
-        .logo:hover,
-        .logo:active {
-            color: #307B52;
-            text-decoration: none;
+        .logo-img {
+            height: 50px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .nav-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* [수정됨] nav-right에 Flex 속성 추가 -> 햄버거 위치 교정 */
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-shrink: 0;
         }
 
         .nav-menu {
@@ -85,9 +104,7 @@
             margin-top: 0.5rem;
         }
 
-        .dropdown li {
-            list-style: none;
-        }
+        .dropdown li { list-style: none; }
 
         .dropdown a {
             display: block;
@@ -102,52 +119,159 @@
             color: #307B52;
         }
 
-        .nav-menu > li:hover .dropdown,
-        .dropdown:hover {
+        .nav-menu > li:hover .dropdown {
             display: block;
         }
 
         .cta-button {
-            background: linear-gradient(135deg, #307B52 0%, #55A759 100%);
+            background: #307B52;
             color: white;
             padding: 0.7rem 1.5rem;
             border-radius: 25px;
             text-decoration: none;
             font-weight: 600;
-            transition: all 0.3s;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
         }
 
         .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(48, 123, 82, 0.3);
+            background: #264A3A;
         }
 
-        /* 페이지 헤더 */
+        /* ===== 햄버거 메뉴 스타일 (index.html 복원) ===== */
+        .hamburger {
+            display: none; /* PC에서는 숨김 */
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            background: none;
+            border: none;
+            padding: 0.5rem;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(8px, 8px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+
+        /* 오버레이 */
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 998;
+        }
+        .menu-overlay.active { display: block; }
+
+        /* 모바일 사이드 메뉴 */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 300px;
+            height: 100vh;
+            background: white;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+            z-index: 999; /* nav(100)보다 높아서 위로 뜸 */
+            transition: right 0.3s ease;
+            overflow-y: auto;
+        }
+        .mobile-menu.active { right: 0; }
+
+        .mobile-menu-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .mobile-menu-header h3 { color: #307B52; font-size: 1.3rem; margin: 0; }
+
+        .close-mobile-menu {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #999;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .close-mobile-menu:hover { color: #333; }
+
+        .mobile-menu-list { list-style: none; padding: 1rem 0; }
+        .mobile-menu-list > li { border-bottom: 1px solid #f0f0f0; }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: #333;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+        .menu-toggle:hover { background: #f3f9f5; color: #307B52; }
+        .menu-toggle.active::after { transform: rotate(180deg); }
+        .menu-toggle::after { content: "▼"; font-size: 0.7rem; transition: transform 0.3s; margin-left: auto; }
+
+        .mobile-submenu {
+            display: none;
+            list-style: none;
+            background: #f9f9f9;
+            padding: 0;
+        }
+        .mobile-submenu.active { display: block; }
+        .mobile-submenu a {
+            display: block;
+            padding: 0.8rem 1.5rem 0.8rem 2.5rem;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: background 0.3s;
+        }
+        .mobile-submenu a:hover { background: #f0f0f0; color: #307B52; }
+
+        /* ===== 페이지 콘텐츠 스타일 ===== */
         .page-header {
             background: linear-gradient(135deg, #307B52 0%, #55A759 100%);
             color: white;
             padding: 4rem 2rem 3rem;
             text-align: center;
         }
+        .page-header h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .page-header p { font-size: 1.3rem; opacity: 0.95; }
 
-        .page-header h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .page-header p {
-            font-size: 1.3rem;
-            opacity: 0.95;
-        }
-
-        /* 섹션 */
         .section {
             max-width: 1200px;
             margin: 0 auto;
             padding: 4rem 2rem;
         }
 
-        /* 로디쌤 소개 섹션 */
+        /* 로디쌤 소개 */
         .teacher-intro {
             display: flex;
             gap: 3rem;
@@ -171,377 +295,231 @@
             position: relative;
             overflow: hidden;
         }
-
-        .teacher-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 20px;
-        }
-
+        .teacher-image img { width: 100%; height: 100%; object-fit: cover; border-radius: 20px; }
         .teacher-image::after {
             content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
+            position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
             background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
             pointer-events: none;
         }
 
-        .teacher-text {
-            flex: 1;
-        }
-
-        .teacher-text h2 {
-            font-size: 2.2rem;
-            color: #307B52;
-            margin-bottom: 1.5rem;
-            font-weight: 700;
-        }
-
-        .teacher-text p {
-            font-size: 1.1rem;
-            line-height: 1.9;
-            color: #555;
-            margin-bottom: 1.2rem;
-        }
-
+        .teacher-text { flex: 1; }
+        .teacher-text h2 { font-size: 2.2rem; color: #307B52; margin-bottom: 1.5rem; font-weight: 700; }
+        .teacher-text p { font-size: 1.1rem; line-height: 1.9; color: #555; margin-bottom: 1.2rem; }
         .teacher-text .highlight {
-            color: #307B52;
-            font-weight: 600;
+            color: #307B52; font-weight: 600;
             background: linear-gradient(120deg, rgba(48, 123, 82, 0.1) 0%, rgba(48, 123, 82, 0.1) 100%);
-            padding: 0 0.3rem;
-            border-radius: 4px;
+            padding: 0 0.3rem; border-radius: 4px;
         }
 
-        .feature-list {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
+        .feature-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 2rem; }
         .feature-item {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            padding: 1rem;
+            display: flex; align-items: center; gap: 0.8rem; padding: 1rem;
             background: linear-gradient(135deg, rgba(48, 123, 82, 0.05) 0%, rgba(85, 167, 89, 0.05) 100%);
-            border-radius: 10px;
-            border-left: 3px solid #307B52;
+            border-radius: 10px; border-left: 3px solid #307B52;
         }
+        .feature-icon { font-size: 1.5rem; }
+        .feature-text { font-size: 0.95rem; color: #555; line-height: 1.5; }
 
-        .feature-icon {
-            font-size: 1.5rem;
-        }
+        /* 선발 프로세스 */
+        .process-header { text-align: center; margin-bottom: 3rem; }
+        .process-header h2 { font-size: 2.5rem; color: #307B52; margin-bottom: 0.5rem; font-weight: 700; }
+        .process-header p { font-size: 1.2rem; color: #666; }
 
-        .feature-text {
-            font-size: 0.95rem;
-            color: #555;
-            line-height: 1.5;
-        }
-
-        /* 선발 프로세스 타이틀 */
-        .process-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .process-header h2 {
-            font-size: 2.5rem;
-            color: #307B52;
-            margin-bottom: 0.5rem;
-            font-weight: 700;
-        }
-
-        .process-header p {
-            font-size: 1.2rem;
-            color: #666;
-        }
-
-        /* 프로세스 플로우 */
         .process-flow {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 2rem;
-            margin-bottom: 5rem;
-            padding: 2rem;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 4px 20px rgba(48, 123, 82, 0.1);
+            display: flex; justify-content: center; align-items: center; gap: 2rem;
+            margin-bottom: 5rem; padding: 2rem;
+            background: white; border-radius: 20px; box-shadow: 0 4px 20px rgba(48, 123, 82, 0.1);
         }
-
-        .process-step {
-            flex: 1;
-            text-align: center;
-            position: relative;
-        }
-
+        .process-step { flex: 1; text-align: center; position: relative; }
         .step-circle {
-            width: 80px;
-            height: 80px;
+            width: 80px; height: 80px;
             background: linear-gradient(135deg, #307B52 0%, #55A759 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-            color: white;
-            font-size: 2rem;
-            font-weight: bold;
-            box-shadow: 0 6px 20px rgba(48, 123, 82, 0.3);
-            transition: transform 0.3s;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1rem; color: white; font-size: 2rem; font-weight: bold;
+            box-shadow: 0 6px 20px rgba(48, 123, 82, 0.3); transition: transform 0.3s;
         }
+        .process-step:hover .step-circle { transform: scale(1.1); }
+        .step-title { font-size: 1.3rem; font-weight: 600; color: #333; margin-bottom: 0.5rem; }
+        .step-subtitle { font-size: 0.9rem; color: #666; }
+        .arrow { font-size: 2rem; color: #307B52; flex-shrink: 0; }
 
-        .process-step:hover .step-circle {
-            transform: scale(1.1);
-        }
-
-        .step-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 0.5rem;
-        }
-
-        .step-subtitle {
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        .arrow {
-            font-size: 2rem;
-            color: #307B52;
-            flex-shrink: 0;
-        }
-
-        /* 세부 프로세스 카드 */
+        /* 세부 프로세스 */
         .detail-card {
-            margin-bottom: 4rem;
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
+            margin-bottom: 4rem; background: white; border-radius: 20px; overflow: hidden;
             box-shadow: 0 4px 20px rgba(48, 123, 82, 0.1);
             transition: transform 0.3s, box-shadow 0.3s;
         }
-
-        .detail-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(48, 123, 82, 0.15);
-        }
-
-        .detail-content {
-            display: flex;
-            align-items: center;
-        }
-
-        .detail-card:nth-child(even) .detail-content {
-            flex-direction: row-reverse;
-        }
-
+        .detail-card:hover { transform: translateY(-5px); box-shadow: 0 8px 30px rgba(48, 123, 82, 0.15); }
+        .detail-content { display: flex; align-items: center; }
+        .detail-card:nth-child(even) .detail-content { flex-direction: row-reverse; }
+        
         .detail-image {
-            width: 500px;
-            height: 400px;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            border-radius: 20px;
-            margin: 2rem;
+            width: 500px; height: 400px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden; border-radius: 20px; margin: 2rem;
         }
-
-        .detail-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-
-
+        .detail-image img { width: 100%; height: 100%; object-fit: cover; }
         .step-badge {
-            position: absolute;
-            top: 1.5rem;
-            left: 1.5rem;
-            background: white;
-            color: #307B52;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            z-index: 10;
+            position: absolute; top: 1.5rem; left: 1.5rem;
+            background: white; color: #307B52; padding: 0.5rem 1rem;
+            border-radius: 20px; font-weight: 700; font-size: 0.9rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 10;
         }
-
-        .detail-text {
-            flex: 1;
-            padding: 3rem;
-        }
-
-        .detail-text h3 {
-            font-size: 2rem;
-            color: #307B52;
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-
-        .detail-text p {
-            font-size: 1.05rem;
-            line-height: 1.8;
-            color: #555;
-            margin-bottom: 2rem;
-        }
-
-        .checklist {
-            list-style: none;
-            padding: 0;
-        }
-
+        .detail-text { flex: 1; padding: 3rem; }
+        .detail-text h3 { font-size: 2rem; color: #307B52; margin-bottom: 1rem; font-weight: 700; }
+        .detail-text p { font-size: 1.05rem; line-height: 1.8; color: #555; margin-bottom: 2rem; }
+        .checklist { list-style: none; padding: 0; }
         .checklist li {
-            padding: 0.8rem 0;
-            padding-left: 2rem;
-            position: relative;
-            color: #555;
-            font-size: 1rem;
-            line-height: 1.6;
+            padding: 0.8rem 0; padding-left: 2rem; position: relative;
+            color: #555; font-size: 1rem; line-height: 1.6;
         }
-
         .checklist li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: #307B52;
-            font-weight: bold;
-            font-size: 1.2rem;
+            content: '✓'; position: absolute; left: 0;
+            color: #307B52; font-weight: bold; font-size: 1.2rem;
         }
 
         /* 푸터 */
         footer {
             background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-            color: #ccc;
-            padding: 3rem 2rem;
-            margin-top: 4rem;
+            color: #ccc; padding: 3rem 2rem; margin-top: 4rem;
         }
-
         .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 3rem;
+            max-width: 1200px; margin: 0 auto; display: grid;
+            grid-template-columns: repeat(3, 1fr); gap: 3rem;
         }
+        .footer-section h3 { color: #2D8659; margin-bottom: 1rem; }
+        .footer-section p, .footer-section a { color: #999; text-decoration: none; line-height: 2; }
+        .footer-section a:hover { color: #2D8659; }
+        .footer-bottom { text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #333; color: #666; }
 
-        .footer-section h3 {
+        .contact-phone {
+            font-size: 2rem;
+            font-weight: bold;
             color: #55A759;
-            margin-bottom: 1rem;
-        }
-
-        .footer-section p,
-        .footer-section a {
-            color: #999;
             text-decoration: none;
-            line-height: 2;
+            cursor: pointer;
+            margin: 0;
+            line-height: 1;
         }
 
-        .footer-section a:hover {
-            color: #55A759;
+        /* 스크롤 애니메이션 클래스 */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .footer-bottom {
-            text-align: center;
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid #333;
-            color: #666;
-        }
-
-        /* 반응형 */
-        @media (max-width: 968px) {
-            .teacher-intro {
-                flex-direction: column;
-            }
-
-            .teacher-image {
-                width: 100%;
-                height: 350px;
-            }
-
-            .feature-list {
-                grid-template-columns: 1fr;
-            }
-
-            .process-flow {
-                flex-direction: column;
-                gap: 2rem;
-            }
-
-            .arrow {
-                transform: rotate(90deg);
-            }
-
-            .detail-content,
-            .detail-card:nth-child(even) .detail-content {
+        /* ===== 반응형 미디어 쿼리 (index.html 기준 768px) ===== */
+        @media (max-width: 768px) {
+            .nav-center { display: none; }
+            .hamburger { display: flex; }
+            
+            .page-header h1 { font-size: 2rem; }
+            
+            .teacher-intro { flex-direction: column; padding: 2rem; }
+            .teacher-image { width: 100%; height: 350px; }
+            .feature-list { grid-template-columns: 1fr; }
+            
+            .process-flow { flex-direction: column; gap: 2rem; }
+            .arrow { transform: rotate(90deg); }
+            
+            .detail-card { margin-bottom: 2rem; }
+            /* 중요: detail-content 방향 모두 세로로 통일 */
+            .detail-content, .detail-card:nth-child(even) .detail-content {
                 flex-direction: column !important;
             }
-
-            .detail-image {
-                width: 100%;
-                height: 300px;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-            }
+            .detail-image { width: 100%; height: 250px; margin: 0; border-radius: 20px 20px 0 0; }
+            .detail-text { padding: 2rem; }
+            
+            .footer-content { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <!-- 네비게이션 -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <h3>RODILAB</h3>
+            <button class="close-mobile-menu" onclick="closeMobileMenu()">✕</button>
+        </div>
+        <ul class="mobile-menu-list">
+            <li>
+                <button class="menu-toggle" onclick="toggleSubmenu(this)">로디랩 소개</button>
+                <ul class="mobile-submenu">
+                    <li><a href="brand_page.html" onclick="closeMobileMenu()">브랜드 소개</a></li>
+                    <li><a href="activities_page.html" onclick="closeMobileMenu()">활동 내역</a></li>
+                    <li><a href="teacher_page.html" onclick="closeMobileMenu()">로디쌤</a></li>
+                </ul>
+            </li>
+            <li>
+                <button class="menu-toggle" onclick="toggleSubmenu(this)">패키지 소개</button>
+                <ul class="mobile-submenu">
+                    <li><a href="package_page.html" onclick="closeMobileMenu()">패키지 소개</a></li>
+                    <li><a href="contents_page.html" onclick="closeMobileMenu()">구성 소개</a></li>
+                    <li><a href="enterprise_page.html" onclick="closeMobileMenu()">기관 전용</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="review_page.html" style="display: block; padding: 1rem 1.5rem; color: #333; text-decoration: none; font-weight: 500;" onclick="closeMobileMenu()">리뷰</a>
+            </li>
+        </ul>
+    </div>
+
     <nav>
         <div class="nav-container">
-            <a href="index.html" class="logo">RODILAB</a>
-            <ul class="nav-menu">
-                <li>
-                    <a href="brand_page.html">로디랩 소개</a>
-                    <ul class="dropdown">
-                        <li><a href="brand_page.html">브랜드 소개</a></li>
-                        <li><a href="activities_page.html">활동 내역</a></li>
-                        <li><a href="teacher_page.html">로디쌤</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="package_page.html">패키지 소개</a>
-                    <ul class="dropdown">
-                        <li><a href="package_page.html">패키지 소개</a></li>
-                        <li><a href="contents_page.html">구성 소개</a></li>
-                        <li><a href="enterprise_page.html">기업 전용</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="review_page.html">리뷰</a>
-                    <ul class="dropdown">
-                        <li><a href="review_page.html">서비스 리뷰</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <a href="consult_page.html" class="cta-button">상담 신청</a>
+            <a href="index.html" class="logo">
+                <img src="./images/logo_1.png" alt="로디랩 로고" class="logo-img">
+            </a>
+            <div class="nav-center">
+                <ul class="nav-menu">
+                    <li>
+                        <a href="brand_page.html">로디랩 소개</a>
+                        <ul class="dropdown">
+                            <li><a href="brand_page.html">브랜드 소개</a></li>
+                            <li><a href="activities_page.html">활동 내역</a></li>
+                            <li><a href="teacher_page.html">로디쌤</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="package_page.html">패키지 소개</a>
+                        <ul class="dropdown">
+                            <li><a href="package_page.html">패키지 소개</a></li>
+                            <li><a href="contents_page.html">구성 소개</a></li>
+                            <li><a href="enterprise_page.html">기관 전용</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="review_page.html">리뷰</a>
+                        <ul class="dropdown">
+                            <li><a href="review_page.html">서비스 리뷰</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="nav-right">
+                <button class="hamburger" id="hamburger" onclick="openMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <a href="consult_page.html" class="cta-button">상담 신청</a>
+            </div>
         </div>
     </nav>
     
-    <!-- 페이지 헤더 -->
-    <div class="page-header">
+    <div class="page-header fade-in-up">
         <h1>로디쌤</h1>
         <p>시니어의 디지털 세상을 여는 청년 멘토</p>
     </div>
 
-    <!-- 메인 컨텐츠 -->
     <div class="section">
-        <!-- 로디쌤 소개 -->
-        <div class="teacher-intro">
+        <div class="teacher-intro fade-in-up">
             <div class="teacher-image">
                 <img src="images/tea_teacher_1.JPG" alt="로디쌤 교육 활동">
             </div>
@@ -576,14 +554,12 @@
             </div>
         </div>
 
-        <!-- 선발 프로세스 헤더 -->
-        <div class="process-header">
+        <div class="process-header fade-in-up">
             <h2>로디쌤은 이렇게 선발됩니다!</h2>
             <p>3단계 체계적 교육 과정을 거쳐 전문 시니어 교육자로 성장합니다.</p>
         </div>
 
-        <!-- 프로세스 플로우 -->
-        <div class="process-flow">
+        <div class="process-flow fade-in-up">
             <div class="process-step">
                 <div class="step-circle">1</div>
                 <div class="step-title">사전 교육</div>
@@ -603,8 +579,7 @@
             </div>
         </div>
 
-        <!-- 세부 프로세스 1: 사전 교육 -->
-        <div class="detail-card">
+        <div class="detail-card fade-in-up">
             <div class="detail-content">
                 <div class="detail-image">
                     <img src="images/tea_teacher_2.JPG" alt="사전 교육 현장">
@@ -626,8 +601,7 @@
             </div>
         </div>
 
-        <!-- 세부 프로세스 2: 실전 테스트 -->
-        <div class="detail-card">
+        <div class="detail-card fade-in-up">
             <div class="detail-content">
                 <div class="detail-image">
                     <img src="images/tea_teacher_3.JPG" alt="실전 테스트 현장">
@@ -649,8 +623,7 @@
             </div>
         </div>
 
-        <!-- 세부 프로세스 3: 실전 투입 -->
-        <div class="detail-card">
+        <div class="detail-card fade-in-up">
             <div class="detail-content">
                 <div class="detail-image">
                     <img src="images/tea_teacher_4.JPG" alt="실전 투입 현장">
@@ -670,20 +643,8 @@
                 </div>
             </div>
         </div>
-
-        <!-- CTA 섹션
-        <div style="margin-top: 5rem; padding: 3rem; background: linear-gradient(135deg, #307B52 0%, #55A759 100%); border-radius: 20px; text-align: center; color: white;">
-            <h3 style="font-size: 2rem; margin-bottom: 1rem;">로디쌤이 되고 싶으신가요?</h3>
-            <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.95;">
-                시니어 세대에게 의미있는 변화를 선물하고, 함께 성장하는 청년이 되어보세요!
-            </p>
-            <a href="index.html#contact" style="display: inline-block; background: white; color: #307B52; padding: 1rem 2.5rem; border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-                로디쌤 지원하기
-            </a>
-        </div> -->
     </div>
 
-    <!-- 푸터 -->
     <footer>
         <div class="footer-content">
             <div class="footer-section">
@@ -705,5 +666,53 @@
             <p>&copy; 2025 로디랩(RODILAB). All rights reserved.</p>
         </div>
     </footer>
+
+    <script>
+        // ===== 모바일 메뉴 동작 스크립트 =====
+        function openMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const overlay = document.getElementById('menuOverlay');
+            const hamburger = document.getElementById('hamburger');
+            
+            mobileMenu.classList.add('active');
+            overlay.classList.add('active');
+            hamburger.classList.add('active');
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const overlay = document.getElementById('menuOverlay');
+            const hamburger = document.getElementById('hamburger');
+            
+            mobileMenu.classList.remove('active');
+            overlay.classList.remove('active');
+            hamburger.classList.remove('active');
+        }
+
+        function toggleSubmenu(button) {
+            const submenu = button.nextElementSibling;
+            submenu.classList.toggle('active');
+            button.classList.toggle('active');
+        }
+
+        document.getElementById('menuOverlay').addEventListener('click', closeMobileMenu);
+
+        // ===== 스크롤 애니메이션 스크립트 (올라오는 효과) =====
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+    </script>
 </body>
 </html>
