@@ -42,6 +42,12 @@
             text-decoration: none;
         }
 
+        .logo-img {
+            height: 50px;
+            width: auto;
+            object-fit: contain;
+        }
+
         .nav-menu {
             display: flex;
             list-style: none;
@@ -98,18 +104,20 @@
         }
 
         .cta-button {
-            background: linear-gradient(135deg, #307B52 0%, #55A759 100%);
+            background: #307B52;
             color: white;
             padding: 0.7rem 1.5rem;
             border-radius: 25px;
             text-decoration: none;
             font-weight: 600;
-            transition: all 0.3s;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
         }
 
         .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(48, 123, 82, 0.3);
+            background: #264A3A;
         }
 
         /* 페이지 헤더 */
@@ -285,7 +293,7 @@
         }
 
         .footer-section h3 {
-            color: #55A759;
+            color: #2D8659;
             margin-bottom: 1rem;
         }
 
@@ -297,7 +305,7 @@
         }
 
         .footer-section a:hover {
-            color: #55A759;
+            color: #2D8659;
         }
 
         .footer-bottom {
@@ -307,6 +315,16 @@
             border-top: 1px solid #333;
             color: #666;
         }
+
+        .contact-phone {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #55A759;
+            text-decoration: none;
+            cursor: pointer;
+            margin: 0;
+            line-height: 1;
+        }   
 
         /* 반응형 */
         @media (max-width: 768px) {
@@ -340,69 +358,71 @@
     <!-- 네비게이션 -->
     <nav>
         <div class="nav-container">
-            <a href="index.html" class="logo">RODILAB</a>
-            <ul class="nav-menu">
-                <li>
-                    <a href="brand_page.html">로디랩 소개</a>
-                    <ul class="dropdown">
-                        <li><a href="brand_page.html">브랜드 소개</a></li>
-                        <li><a href="activities_page.html">활동 내역</a></li>
-                        <li><a href="teacher_page.html">로디쌤</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="package_page.html">패키지 소개</a>
-                    <ul class="dropdown">
-                        <li><a href="package_page.html">패키지 소개</a></li>
-                        <li><a href="contents_page.html">구성 소개</a></li>
-                        <li><a href="enterprise_page.html">기업 전용</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="review_page.html">리뷰</a>
-                    <ul class="dropdown">
-                        <li><a href="review_page.html">서비스 리뷰</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <a href="consult_page.html" class="cta-button">상담 신청</a>
+            <a href="index.html"><div class="logo">
+                <img src="./images/logo_1.png" alt="로디랩 로고" class="logo-img">
+            </div></a>
+            <div class="nav-center">
+                <ul class="nav-menu">
+                    <li>
+                        <a href="brand_page.html">로디랩 소개</a>
+                        <ul class="dropdown">
+                            <li><a href="brand_page.html">브랜드 소개</a></li>
+                            <li><a href="activities_page.html">활동 내역</a></li>
+                            <li><a href="teacher_page.html">로디쌤</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="package_page.html">패키지 소개</a>
+                        <ul class="dropdown">
+                            <li><a href="package_page.html">패키지 소개</a></li>
+                            <li><a href="contents_page.html">구성 소개</a></li>
+                            <li><a href="enterprise_page.html">기관 전용</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="review_page.html">리뷰</a>
+                        <ul class="dropdown">
+                            <li><a href="review_page.html">서비스 리뷰</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="nav-right">
+                <button class="hamburger" id="hamburger" onclick="openMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <a href="consult_page.html" class="cta-button">상담 신청</a>
+            </div>
         </div>
     </nav>
 
     <!-- 페이지 헤더 -->
     <div class="page-header">
-        <h1>기업 전용</h1>
-        <p>직원 및 임직원을 위한 맞춤형 디지털 교육</p>
+        <h1>기관 전용</h1>
+        <p>시니어 기관을 위한 단체 교육</p>
     </div>
 
     <!-- 메인 컨텐츠 -->
     <div class="section">
         <!-- 제공 가능한 수업 형태 -->
         <div class="service-section">
-            <h2 class="service-title">제공 가능한 수업 형태</h2>
+            <h2 class="service-title">로디랩 만의 차별화된 교육 서비스</h2>
             <div class="service-grid">
                 <div class="service-card">
                     <h3>👥 1:n 맞춤형 소그룹 교육</h3>
                     <p>
                         참여 인원을 작은 그룹으로 나누어 진행합니다. 
                         예) 20명 → 4명씩 5개 그룹으로 나누어 5명의 전담 강사가 각 그룹을 담당합니다. 
-                        개인의 수준에 맞춘 밀착 케어로 최고의 효과를 낼 수 있습니다.
+                        개인의 <br>수준에 맞춘 밀착 케어로 최고의 효과를 낼 수 있습니다.
                     </p>
                 </div>
-
-                <div class="service-card">
-                    <h3>🎓 메인 강사 집단 교육</h3>
-                    <p>
-                        한 명의 메인 강사가 전체 참여자를 함께 가르치는 형태입니다. 
-                        일관된 커리큘럼으로 모든 직원이 동일한 내용을 학습합니다. 
-                        대규모 인원이 함께 참여하는 효율적인 교육 방식입니다.
-                    </p>
-                </div>
-
+        
                 <div class="service-card">
                     <h3>⭐ 확실한 교육 효과</h3>
                     <p>
-                        1:n 소그룹 교육 방식으로 높은 교육 효과를 보장합니다. 
+                        1:n 소그룹 교육 방식으로 높은 교육 효과를 <br>보장합니다. 
                         단순 강의를 넘어 실습, 반복 학습, 개별 피드백으로 
                         실질적인 디지털 역량 향상을 이끌어냅니다.
                     </p>
@@ -412,7 +432,7 @@
                     <h3>📊 교육 결과 보고</h3>
                     <p>
                         교육 진행 현황과 결과를 상세하게 리포팅해드립니다. 
-                        직원들의 학습 진도, 개선사항, 효과 측정을 객관적으로 제시합니다.
+                        시니어들의 학습 진도, 개선사항, 효과 측정을 객관적으로 제시합니다.
                     </p>
                 </div>
             </div>
@@ -420,11 +440,11 @@
 
         <!-- 신청 폼 -->
         <div class="inquiry-section">
-            <h2>기업 교육 문의</h2>
-            <form action="https://formsubmit.co/contact@rodilab.com" method="POST">
+            <h2>기관 교육 문의</h2>
+            <form action="https://formsubmit.co/super4163@naver.com" method="POST">
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="company">회사명 *</label>
+                        <label for="company">기관명 *</label>
                         <input type="text" id="company" name="company" required placeholder="회사명을 입력해주세요">
                     </div>
                     <div class="form-group">
