@@ -17,13 +17,20 @@
             color: #333;
         }
 
+        .logo-img {
+            height: 50px;
+            width: auto;
+            object-fit: contain;
+        }
+
         /* 네비게이션 */
         nav {
             background: #fff;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
-            z-index: 1000;
+            /* z-index 수정: 모바일 메뉴(999)보다 낮게 설정 */
+            z-index: 100;
         }
 
         .nav-container {
@@ -41,6 +48,20 @@
             color: #307B52;
             text-decoration: none;
             cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .nav-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-shrink: 0;
         }
 
         .logo:visited,
@@ -106,18 +127,262 @@
         }
 
         .cta-button {
-            background: #2D8659;
+            background: #307B52;
             color: white;
             padding: 0.7rem 1.5rem;
             border-radius: 25px;
             text-decoration: none;
             font-weight: 600;
             transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
         }
 
         .cta-button:hover {
-            background: #236b46;
+            background: #264A3A;
         }
+
+        /* 햄버거 메뉴 버튼 */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            background: none;
+            border: none;
+            padding: 0.5rem;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* 오버레이 */
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 998;
+        }
+
+        .menu-overlay.active {
+            display: block;
+        }
+
+        /* 모바일 사이드 메뉴 */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 300px;
+            height: 100vh;
+            background: white;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+            z-index: 999;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mobile-menu-header h3 {
+            color: #307B52;
+            font-size: 1.3rem;
+            margin: 0;
+        }
+
+        .close-mobile-menu {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #999;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            /* 1번 코드와 동일하게 스타일 보정 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-mobile-menu:hover {
+            color: #333;
+        }
+
+        .mobile-menu-list {
+            list-style: none;
+            padding: 1rem 0;
+        }
+
+        .mobile-menu-list > li {
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: #333;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .menu-toggle:hover {
+            background: #f3f9f5;
+            color: #307B52;
+        }
+
+        .menu-toggle.active::after {
+            transform: rotate(180deg);
+        }
+
+        .menu-toggle::after {
+            content: "▼";
+            font-size: 0.7rem;
+            transition: transform 0.3s;
+            margin-left: auto;
+        }
+
+        .mobile-submenu {
+            display: none;
+            list-style: none;
+            background: #f9f9f9;
+            padding: 0;
+        }
+
+        .mobile-submenu.active {
+            display: block;
+        }
+
+        .mobile-submenu li {
+            list-style: none;
+        }
+
+        .mobile-submenu a {
+            display: block;
+            padding: 0.8rem 1.5rem 0.8rem 2.5rem;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: background 0.3s;
+        }
+
+        .mobile-submenu a:hover {
+            background: #f0f0f0;
+            color: #307B52;
+        }
+
+        .mobile-menu-cta {
+            padding: 1.5rem;
+            border-top: 1px solid #eee;
+            margin-top: 1rem;
+        }
+
+        .mobile-menu-cta a {
+            display: block;
+            background: #307B52;
+            color: white;
+            padding: 0.8rem 1rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            text-align: center;
+            transition: background 0.3s;
+        }
+
+        .mobile-menu-cta a:hover {
+            background: #264A3A;
+        }
+
+        /* ===== 스크롤 애니메이션 ===== */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fade-in-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .fade-in-right {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .stagger-item {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .stagger-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stagger-item:nth-child(1) { transition-delay: 0s; }
+        .stagger-item:nth-child(2) { transition-delay: 0.15s; }
+        .stagger-item:nth-child(3) { transition-delay: 0.3s; }
+        .stagger-item:nth-child(4) { transition-delay: 0.45s; }
 
         /* 페이지 헤더 */
         .page-header {
@@ -191,8 +456,11 @@
         }
 
         .brand-text .highlight {
-            color: #2D8659;
+            color: #307B52;
             font-weight: 600;
+            background: linear-gradient(120deg, rgba(48, 123, 82, 0.1) 0%, rgba(48, 123, 82, 0.1) 100%);
+            padding: 0 0.3rem;
+            border-radius: 4px;
         }
 
         /* 미션과 비전 */
@@ -325,6 +593,24 @@
             color: #666;
         }
 
+        .contact-phone {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #55A759;
+            text-decoration: none;
+            cursor: pointer;
+            margin: 0;
+            line-height: 1;
+        }
+
+        br.mob-only {
+            display: none;
+        }
+
+        br.pc-only {
+            display: block;
+        }
+        
         /* 반응형 */
         @media (max-width: 768px) {
             .brand-intro {
@@ -333,134 +619,188 @@
 
             .brand-logo {
                 width: 100%;
-                height: 250px;
+                height: auto;
             }
 
-            .mission-vision,
             .difference-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .mission-vision {
                 grid-template-columns: 1fr;
             }
 
             .footer-content {
                 grid-template-columns: 1fr;
             }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            br.mob-only {
+                display: block;
+            }
+
+            br.pc-only {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- 네비게이션 -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <h3>RODILAB</h3>
+            <button class="close-mobile-menu" onclick="closeMobileMenu()">✕</button>
+        </div>
+        <ul class="mobile-menu-list">
+            <li>
+                <button class="menu-toggle" onclick="toggleSubmenu(this)">로디랩 소개</button>
+                <ul class="mobile-submenu">
+                    <li><a href="brand_page.html" onclick="closeMobileMenu()">브랜드 소개</a></li>
+                    <li><a href="activities_page.html" onclick="closeMobileMenu()">활동 내역</a></li>
+                    <li><a href="teacher_page.html" onclick="closeMobileMenu()">로디쌤</a></li>
+                </ul>
+            </li>
+            <li>
+                <button class="menu-toggle" onclick="toggleSubmenu(this)">패키지 소개</button>
+                <ul class="mobile-submenu">
+                    <li><a href="package_page.html" onclick="closeMobileMenu()">패키지 소개</a></li>
+                    <li><a href="contents_page.html" onclick="closeMobileMenu()">구성 소개</a></li>
+                    <li><a href="enterprise_page.html" onclick="closeMobileMenu()">기관 전용</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="review_page.html" style="display: block; padding: 1rem 1.5rem; color: #333; text-decoration: none; font-weight: 500; transition: background 0.3s;" onmouseover="this.style.background='#f3f9f5'; this.style.color='#307B52';" onmouseout="this.style.background='white'; this.style.color='#333';" onclick="closeMobileMenu()">리뷰</a>
+            </li>
+        </ul>
+    </div>
+
     <nav>
         <div class="nav-container">
-            <a href="index.html" class="logo">RODILAB</a>
-            <ul class="nav-menu">
-                <li>
-                    <a href="brand_page.html">로디랩 소개</a>
-                    <ul class="dropdown">
-                        <li><a href="brand_page.html">브랜드 소개</a></li>
-                        <li><a href="activities_page.html">활동 내역</a></li>
-                        <li><a href="teacher_page.html">로디쌤</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="package_page.html">패키지 소개</a>
-                    <ul class="dropdown">
-                        <li><a href="package_page.html">패키지 소개</a></li>
-                        <li><a href="contents_page.html">구성 소개</a></li>
-                        <li><a href="enterprise_page.html">기업 전용</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="review_page.html">리뷰</a>
-                    <ul class="dropdown">
-                        <li><a href="review_page.html">서비스 리뷰</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <a href="consult_page.html" class="cta-button">상담 신청</a>
+            <a href="index.html"><div class="logo">
+                <img src="./images/logo_1.png" alt="로디랩 로고" class="logo-img">
+            </div></a>
+            <div class="nav-center">
+                <ul class="nav-menu">
+                    <li>
+                        <a href="brand_page.html">로디랩 소개</a>
+                        <ul class="dropdown">
+                            <li><a href="brand_page.html">브랜드 소개</a></li>
+                            <li><a href="activities_page.html">활동 내역</a></li>
+                            <li><a href="teacher_page.html">로디쌤</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="package_page.html">패키지 소개</a>
+                        <ul class="dropdown">
+                            <li><a href="package_page.html">패키지 소개</a></li>
+                            <li><a href="contents_page.html">구성 소개</a></li>
+                            <li><a href="enterprise_page.html">기관 전용</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="review_page.html">리뷰</a>
+                        <ul class="dropdown">
+                            <li><a href="review_page.html">서비스 리뷰</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="nav-right">
+                <button class="hamburger" id="hamburger" onclick="openMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <a href="consult_page.html" class="cta-button">상담 신청</a>
+            </div>
         </div>
     </nav>
 
-    <!-- 페이지 헤더 -->
     <div class="page-header">
         <h1>브랜드 소개</h1>
         <p>시니어 디지털 격차 해소를 위한 혁신적인 교육 솔루션</p>
     </div>
 
-    <!-- 메인 컨텐츠 -->
-    <div class="section">
-        <!-- 브랜드 로고 및 소개 -->
+    <div class="section fade-in-up">
         <div class="brand-intro">
-            <div class="brand-logo">
+            <div class="brand-logo fade-in-left">
                 <img src="./images/logo.png" alt="RODILAB 로고">
             </div>
-            <div class="brand-text">
+            <div class="brand-text fade-in-right">
                 <h2>로디랩 (RODILAB)</h2>
                 <p>
                     <span class="highlight">老人 (노인) + Digital (디지털) + Lab (연구소)</span>의 합성어로, 
-                    시니어 세대의 디지털 격차 해소를 목표로 하는 소셜벤처입니다.
+                    시니어 세대의 디지털 격차 해소를 목표로 하는 <br class="pc-only">기업입니다.
                 </p>
                 <p>
                     가천대학교 인액터스 소속 창업팀으로 시작하여, 2025년 10월부터 본격적인 시니어 디지털 교육 서비스를 제공하고 있습니다. 
-                    단순한 기술 교육을 넘어, 시니어 세대가 디지털 사회에서 소외되지 않고 자신감을 가질 수 있도록 돕는 것이 우리의 목표입니다.
+                    <span class="highlight">단순한 기술 교육을 넘어, 시니어 세대가 디지털 사회에서 소외되지 않고 자신감을 가질 수 있도록 돕는 것</span>이 우리의 목표입니다.
                 </p>
                 <p>
-                    대학생 튜터가 직접 찾아가는 방문 교육, 1:1 또는 소그룹 맞춤형 교육 형태, 자체 제작 학습지와 다양한 컨텐츠를 
+                    <span class="highlight">대학생 튜터가 직접 찾아가는 방문 교육, 1:1 또는 소그룹 맞춤형 교육 형태, 자체 제작 학습지와 다양한 컨텐츠</span>를 
                     <br>통한 체계적 학습 지원으로 높은 교육 만족도와 실질적인 디지털 역량 향상을 이끌어내고 있습니다.
                 </p>
             </div>
         </div>
 
-        <!-- 미션과 비전 -->
-        <div class="mission-vision">
-            <div class="mv-card">
+        <div class="mission-vision fade-in-up">
+            <div class="mv-card stagger-item">
                 <h3>🎯 Mission</h3>
                 <p>
                     시니어 세대가 디지털 시대에서 소외되지 않고, 자녀·손주를 포함한 다양한 사회구성원과 
-                    자유롭게 소통하며, 일상생활에서 디지털 도구를 자신감 있게 활용할 수 있도록 돕습니다.
+                    자유롭게 소통하며, 일상생활에서<br class="pc-only"> 디지털 도구를 자신감 있게 활용할 수 있도록 돕습니다.
                 </p>
             </div>
-            <div class="mv-card">
+            <div class="mv-card stagger-item">
                 <h3>🌟 Vision</h3>
                 <p>
-                    맞춤형 교육을 통해 시니어가 사회에 적극적으로 참여할 수 있는 <br>시스템을 구축합니다. 
+                    맞춤형 교육을 통해 시니어가 사회에 적극적으로 참여할 수 있는 <br class="pc-only">시스템을 구축합니다. 
                 </p>
             </div>
         </div>
 
-        <!-- 브랜드 강점 및 차별점 -->
-        <h3 class="differences-title">브랜드 강점 및 차별점</h3>
-        <div class="difference-grid">
-            <div class="difference-item">
+        <h3 class="differences-title fade-in-up">브랜드 강점 및 차별점</h3>
+        <div class="difference-grid fade-in-up">
+            <div class="difference-item stagger-item">
                 <div class="difference-image">
                     <img src="./images/bra_brand_1.jpg" alt="1:1 또는 1:3 맞춤형 교육">
                 </div>
                 <div class="difference-content">
                     <div class="difference-number">01</div>
                     <h3>1:1 또는 1:3 맞춤형 교육</h3>
-                    <p>개인의 수준과 속도에 맞춘 소그룹 교육으로 이해도를 높입니다. <br>대규모 강의가 아닌 밀착 케어로 한 분, 한 분의 성장을 책임집니다.</p>
+                    <p>개인의 수준과 속도에 맞춘 소그룹 교육으로 이해도를 높입니다. <br class="pc-only">대규모 강의가 아닌 밀착 케어로 한 분, 한 분의 성장을 책임집니다.</p>
                 </div>
             </div>
-            <div class="difference-item">
+            <div class="difference-item stagger-item">
                 <div class="difference-image">
                     <img src="./images/bra_brand_2.jpg" alt="찾아가는 방문 교육">
                 </div>
                 <div class="difference-content">
                     <div class="difference-number">02</div>
                     <h3>찾아가는 방문 교육</h3>
-                    <p>가정, 복지관, 경로당 등 익숙한 공간에서 편안하게 배울 수 있습니다.<br> 이동의 번거로움을 해소합니다.</p>
+                    <p>가정, 복지관, 경로당 등 익숙한 공간에서 편안하게 배울 수 있습니다.<br class="pc-only">이동의 번거로움을 해소합니다.</p>
                 </div>
             </div>
-            <div class="difference-item">
+            <div class="difference-item stagger-item">
                 <div class="difference-image">
                     <img src="./images/bra_brand_3.jpg" alt="철저한 복습이 가능한 컨텐츠">
                 </div>
                 <div class="difference-content">
                     <div class="difference-number">03</div>
                     <h3>철저한 복습이 가능한 컨텐츠</h3>
-                    <p>복습과 반복 학습이 가능한 체계적인 컨텐츠를 제공합니다. 수업 후에도 <br>집에서 혼자 다시 풀어볼 수 있는 다양한 컨텐츠를 제공합니다.</p>
+                    <p>복습과 반복 학습이 가능한 체계적인 컨텐츠를 제공합니다. 수업 후에도 <br class="pc-only">집에서 혼자 다시 풀어볼 수 있는 다양한 컨텐츠를 제공합니다.</p>
                 </div>
             </div>
-            <div class="difference-item">
+            <div class="difference-item stagger-item">
                 <div class="difference-image">
                     <img src="./images/bra_brand_4.jpg" alt="생활 밀착형 커리큘럼">
                 </div>
@@ -473,7 +813,6 @@
         </div>
     </div>
 
-    <!-- 푸터 -->
     <footer>
         <div class="footer-content">
             <div class="footer-section">
@@ -495,5 +834,70 @@
             <p>&copy; 2025 로디랩(RODILAB). All rights reserved.</p>
         </div>
     </footer>
+
+    <script>
+        // ===== 모바일 메뉴 토글 (1번 코드와 동일한 방식) =====
+        function openMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const overlay = document.getElementById('menuOverlay');
+            const hamburger = document.getElementById('hamburger');
+            
+            mobileMenu.classList.add('active');
+            overlay.classList.add('active');
+            hamburger.classList.add('active');
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const overlay = document.getElementById('menuOverlay');
+            const hamburger = document.getElementById('hamburger');
+            
+            mobileMenu.classList.remove('active');
+            overlay.classList.remove('active');
+            hamburger.classList.remove('active');
+        }
+
+        function toggleSubmenu(button) {
+            const submenu = button.nextElementSibling;
+            submenu.classList.toggle('active');
+            button.classList.toggle('active');
+        }
+
+        // 오버레이 클릭 시 메뉴 닫기
+        document.getElementById('menuOverlay').addEventListener('click', closeMobileMenu);
+
+        // ===== 스크롤 애니메이션 =====
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+        document.querySelectorAll('.fade-in-left').forEach(el => observer.observe(el));
+        document.querySelectorAll('.fade-in-right').forEach(el => observer.observe(el));
+        document.querySelectorAll('.stagger-item').forEach(el => observer.observe(el));
+
+        // 부드러운 스크롤
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && document.querySelector(href)) {
+                    e.preventDefault();
+                    document.querySelector(href).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
