@@ -436,39 +436,53 @@
             .nav-center { display: none; }
             .hamburger { display: flex; }
 
-            /* --- 타임라인 모바일 레이아웃 수정 --- */
+            /* 1. 타임라인 선을 더 진하고 선명하게 수정 */
             .timeline-line { 
-                left: 50%; /* 선을 다시 중앙으로 */
+                left: 50%;
+                transform: translateX(-50%);
                 top: 0;
                 bottom: 0;
-                opacity: 0.5;
+                width: 3px; /* 선 굵기 유지 */
+                background: #307B52; /* 그라데이션 대신 단색으로 진하게 변경 */
+                opacity: 1 !important; /* 투명도 제거하여 선명하게 표시 */
+                z-index: 0;
             }
 
+            /* 2. 박스를 선 기준 정중앙으로 배치 */
             .timeline-item, .timeline-item.left, .timeline-item.right {
-                flex-direction: column !important; /* 세로 방향으로 */
-                align-items: center !important;
-                margin-bottom: 4rem;
-                padding: 0.1rem
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important; /* 가로축 중앙 정렬 */
+                justify-content: center !important;
+                width: 100% !important;
+                margin-bottom: 3rem !important;
+                padding: 0 !important;
             }
 
-            .timeline-dot-wrapper {
-                display: none !important;
-            }
-
-            /* 2. 박스 크기 조절: 너비를 줄이고 여백을 최소화 */
+            /* 박스 너비 및 여백 설정 */
             .timeline-content-wrapper {
-                width: 85% !important; /* 화면을 꽉 채우지 않고 좌우 여유를 줌 */
-                max-width: 320px;     /* 최대 너비 제한 */
-                margin: 0 auto;
+                width: 85% !important;
+                max-width: 340px; 
+                margin: 0 auto !important;
+                z-index: 1; /* 선보다 위로 오도록 설정 */
             }
 
             .timeline-content {
-                padding: 1.2rem;      /* 내부 여백을 확 줄임 */
-                background: rgba(255, 255, 255, 0.95) !important;
+                padding: 1.2rem;
+                background: rgba(255, 255, 255, 1) !important; /* 박스 배경을 불투명하게 하여 선과 겹쳐도 잘 보이게 함 */
+                border: 2px solid #307B52;
                 border-radius: 10px;
             }
 
-            .timeline-spacer { display: none; }
+            /* 필요 없는 요소 제거 */
+            .timeline-dot-wrapper, .timeline-spacer { 
+                display: none !important; 
+            }
+
+            /* (이하 기존의 글자 크기 관련 스타일은 그대로 유지됩니다) */
+            .timeline-date { font-size: 1.1rem !important; margin-bottom: 0.3rem;}
+            .timeline-title { font-size: 1.2rem !important; margin-bottom: 0.6rem;}
+            .timeline-description { font-size: 0.95rem !important; line-height: 1.5; font-weight: 400; }
 
             /* 배경 가독성 및 효과 */
             .timeline-section { 
@@ -477,29 +491,6 @@
             }
             .timeline-section::before {
                 background: rgba(255, 255, 255, 0.4); /* 배경 이미지가 살짝 더 잘 보이게 조정 */
-            }
-
-            /* 3. 글자 크기 조절: 날짜와 제목은 많이, 본문은 조금만 */
-            .timeline-date {
-                font-size: 1.1rem !important; /* 1.65rem -> 1.1rem (대폭 축소) */
-                margin-bottom: 0.3rem;
-            }
-
-            .timeline-title {
-                font-size: 1.2rem !important; /* 1.55rem -> 1.2rem (대폭 축소) */
-                margin-bottom: 0.6rem;
-                word-break: keep-all;        /* 단어 단위 줄바꿈으로 가독성 유지 */
-            }
-
-            .timeline-description {
-                font-size: 0.95rem !important; /* 1.1rem -> 0.95rem (살짝 축소) */
-                line-height: 1.5;
-                font-weight: 400;             /* 본문은 조금 더 얇게 해서 제목과 구분 */
-            }
-
-            /* 4. 타임라인 간격 조절: 박스가 작아진 만큼 상하 간격도 조정 */
-            .timeline-item {
-                margin-bottom: 2.5rem !important; 
             }
 
             /* 기타 모바일 스타일 */
