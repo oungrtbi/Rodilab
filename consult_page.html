@@ -25,7 +25,7 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.08);
             position: sticky;
             top: 0;
-            z-index: 1000;
+            z-index: 100;
         }
 
         .nav-container {
@@ -42,6 +42,12 @@
             font-weight: bold;
             color: #307B52;
             text-decoration: none;
+        }
+
+        .logo-img {
+            height: 50px;
+            width: auto;
+            object-fit: contain;
         }
 
         .nav-menu {
@@ -97,6 +103,120 @@
 
         .nav-menu > li:hover .dropdown {
             display: block;
+        }
+
+        /* ===== 햄버거 메뉴 및 모바일 사이드바 스타일 ===== */
+        .hamburger {
+            display: none; /* PC 숨김 */
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            background: none;
+            border: none;
+            padding: 0.5rem;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(8px, 8px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 998;
+        }
+        .menu-overlay.active { display: block; }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 300px;
+            height: 100vh;
+            background: white;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+            z-index: 999;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+        }
+        .mobile-menu.active { right: 0; }
+
+        .mobile-menu-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mobile-logo-img {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .close-mobile-menu {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #999;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .close-mobile-menu:hover { color: #333; }
+
+        .mobile-menu-list { list-style: none; padding: 1rem 0; }
+        .mobile-menu-list > li { border-bottom: 1px solid #f0f0f0; }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: #333;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+        }
+        .menu-toggle::after { content: "▼"; font-size: 0.7rem; margin-left: auto; }
+
+        .mobile-submenu {
+            display: none;
+            list-style: none;
+            background: #f9f9f9;
+            padding: 0;
+        }
+        .mobile-submenu.active { display: block; }
+        .mobile-submenu a {
+            display: block;
+            padding: 0.8rem 1.5rem 0.8rem 2.5rem;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.95rem;
         }
 
         /* 메인 컨테이너 */
@@ -258,7 +378,7 @@
         }
 
         .footer-section h3 {
-            color: #55A759;
+            color: #2D8659;
             margin-bottom: 1rem;
         }
 
@@ -270,7 +390,7 @@
         }
 
         .footer-section a:hover {
-            color: #55A759;
+            color: #2D8659;
         }
 
         .footer-bottom {
@@ -281,8 +401,26 @@
             color: #666;
         }
 
+        .contact-phone {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #55A759;
+            text-decoration: none;
+            cursor: pointer;
+            margin: 0;
+            line-height: 1;
+        }
+
         /* 반응형 */
         @media (max-width: 768px) {
+            .nav-menu {
+                display: none; /* 모바일에서 PC 메뉴 숨김 */
+            }
+
+            .hamburger {
+                display: flex; /* 모바일에서 햄버거 보임 */
+            }
+
             .container {
                 margin: 1.5rem auto;
                 padding: 1rem;
@@ -307,10 +445,42 @@
     </style>
 </head>
 <body>
-    <!-- 네비게이션 -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <img src="./images/logo_1.png" alt="로디랩 로고" class="mobile-logo-img">
+            <button class="close-mobile-menu" onclick="closeMobileMenu()">✕</button>
+        </div>
+        <ul class="mobile-menu-list">
+            <li>
+                <button class="menu-toggle" onclick="toggleSubmenu(this)">로디랩 소개</button>
+                <ul class="mobile-submenu">
+                    <li><a href="brand_page.html" onclick="closeMobileMenu()">브랜드 소개</a></li>
+                    <li><a href="activities_page.html" onclick="closeMobileMenu()">활동 내역</a></li>
+                    <li><a href="teacher_page.html" onclick="closeMobileMenu()">로디쌤</a></li>
+                </ul>
+            </li>
+            <li>
+                <button class="menu-toggle" onclick="toggleSubmenu(this)">패키지 소개</button>
+                <ul class="mobile-submenu">
+                    <li><a href="package_page.html" onclick="closeMobileMenu()">패키지 소개</a></li>
+                    <li><a href="contents_page.html" onclick="closeMobileMenu()">구성 소개</a></li>
+                    <li><a href="enterprise_page.html" onclick="closeMobileMenu()">기관 전용</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="review_page.html" style="display: block; padding: 1rem 1.5rem; color: #333; text-decoration: none; font-weight: 500;" onclick="closeMobileMenu()">리뷰</a>
+            </li>
+        </ul>
+    </div>
+
     <nav>
         <div class="nav-container">
-            <a href="index.html" class="logo">RODILAB</a>
+            <a href="index.html"><div class="logo">
+                <img src="./images/logo_1.png" alt="로디랩 로고" class="logo-img">
+            </div></a>
+            
             <ul class="nav-menu">
                 <li>
                     <a href="brand_page.html">로디랩 소개</a>
@@ -325,7 +495,7 @@
                     <ul class="dropdown">
                         <li><a href="package_page.html">패키지 소개</a></li>
                         <li><a href="contents_page.html">구성 소개</a></li>
-                        <li><a href="enterprise_page.html">기업 전용</a></li>
+                        <li><a href="enterprise_page.html">기관 전용</a></li>
                     </ul>
                 </li>
                 <li>
@@ -335,17 +505,21 @@
                     </ul>
                 </li>
             </ul>
+
+            <button class="hamburger" id="hamburger" onclick="openMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
 
-    <!-- 메인 컨텐츠 -->
     <div class="container">
         <div class="form-card">
-            <!-- 폼 -->
             <div id="form-section">
                 <div class="form-header">
                     <h1>상담 신청</h1>
-                    <p>로디쌤과 함께 디지털 여정을 시작해보세요</p>
+                    <p>로디랩과 함께 디지털 여정을 시작해보세요</p>
                 </div>
 
                 <iframe name="hidden_iframe" style="display:none;"></iframe>
@@ -356,19 +530,16 @@
                       target="hidden_iframe"
                       onsubmit="submitted = true;">
                     
-                    <!-- 이름 -->
                     <div class="form-group">
                         <label for="name">이름 <span class="required">*</span></label>
                         <input type="text" id="name" name="entry.477140156" required placeholder="예) 김태희">
                     </div>
 
-                    <!-- 연락처 -->
                     <div class="form-group">
                         <label for="phone">연락처 (휴대폰) <span class="required">*</span></label>
                         <input type="tel" id="phone" name="entry.2063175367" required placeholder="예) 010-0000-0000">
                     </div>
 
-                    <!-- 관심 패키지 -->
                     <div class="form-group">
                         <label for="package">관심 패키지 <span class="required">*</span></label>
                         <select id="package" name="entry.2059108630" required>
@@ -376,18 +547,16 @@
                             <option value="1:1 8회차">1:1 8회차 - 기초 입문 패키지</option>
                             <option value="1:1 12회차">1:1 12회차 - 기본 종합 패키지</option>
                             <option value="1:1 24회차">1:1 24회차 - 프리미엄 완성 패키지</option>
-                            <option value="1:3 15회차">1:3 15회차 - 그룹 경제형 패키지</option>
+                            <option value="1:3 15회차">1:3 15회차 - 그룹 패키지</option>
                             <option value="미정">아직 미정</option>
                         </select>
                     </div>
 
-                    <!-- 기타 사항 및 메모 -->
                     <div class="form-group">
                         <label for="message">기타 사항 및 메모</label>
                         <textarea id="message" name="entry.1413926080" placeholder="특별히 원하시는 사항이나 궁금한 점을 작성해주세요"></textarea>
                     </div>
 
-                    <!-- 버튼 -->
                     <div class="form-actions">
                         <button type="reset" class="btn-reset">초기화</button>
                         <button type="submit" class="btn-submit">상담 신청하기</button>
@@ -395,7 +564,6 @@
                 </form>
             </div>
 
-            <!-- 성공 메시지 -->
             <div id="success-section" class="success-message">
                 <h2>✓ 상담 신청이 완료되었습니다!</h2>
                 <p>로디랩 팀이 빠르게 연락드리겠습니다.<br>
@@ -406,7 +574,6 @@
         </div>
     </div>
 
-    <!-- 푸터 -->
     <footer>
         <div class="footer-content">
             <div class="footer-section">
@@ -430,8 +597,37 @@
     </footer>
 
     <script>
-        let submitted = false;
+        // 모바일 메뉴 기능
+        function openMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const overlay = document.getElementById('menuOverlay');
+            const hamburger = document.getElementById('hamburger');
+            
+            mobileMenu.classList.add('active');
+            overlay.classList.add('active');
+            hamburger.classList.add('active');
+        }
 
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const overlay = document.getElementById('menuOverlay');
+            const hamburger = document.getElementById('hamburger');
+            
+            mobileMenu.classList.remove('active');
+            overlay.classList.remove('active');
+            hamburger.classList.remove('active');
+        }
+
+        function toggleSubmenu(button) {
+            const submenu = button.nextElementSibling;
+            submenu.classList.toggle('active');
+            button.classList.toggle('active');
+        }
+
+        document.getElementById('menuOverlay').addEventListener('click', closeMobileMenu);
+
+        // 폼 제출 스크립트
+        let submitted = false;
         const iframe = document.querySelector('iframe[name="hidden_iframe"]');
         if(iframe){
             iframe.onload = function(){
