@@ -455,18 +455,17 @@
                 display: none !important;
             }
 
+            /* 2. 박스 크기 조절: 너비를 줄이고 여백을 최소화 */
             .timeline-content-wrapper {
-                width: 100% !important; /* 카드가 화면을 거의 다 채우도록 */
-                max-width: 400px;
-                padding: 0 !important;
-                text-align: center !important; /* 텍스트 중앙 정렬 */
+                width: 85% !important; /* 화면을 꽉 채우지 않고 좌우 여유를 줌 */
+                max-width: 320px;     /* 최대 너비 제한 */
+                margin: 0 auto;
             }
 
             .timeline-content {
-                background: rgba(255,255,255,0.98); !important
-                border: 1.5px solid #307B52;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-                text-align: center !important; /* 내부 텍스트도 중앙 */
+                padding: 1.2rem;      /* 내부 여백을 확 줄임 */
+                background: rgba(255, 255, 255, 0.95) !important;
+                border-radius: 10px;
             }
 
             .timeline-spacer { display: none; }
@@ -478,6 +477,29 @@
             }
             .timeline-section::before {
                 background: rgba(255, 255, 255, 0.4); /* 배경 이미지가 살짝 더 잘 보이게 조정 */
+            }
+
+            /* 3. 글자 크기 조절: 날짜와 제목은 많이, 본문은 조금만 */
+            .timeline-date {
+                font-size: 1.1rem !important; /* 1.65rem -> 1.1rem (대폭 축소) */
+                margin-bottom: 0.3rem;
+            }
+
+            .timeline-title {
+                font-size: 1.2rem !important; /* 1.55rem -> 1.2rem (대폭 축소) */
+                margin-bottom: 0.6rem;
+                word-break: keep-all;        /* 단어 단위 줄바꿈으로 가독성 유지 */
+            }
+
+            .timeline-description {
+                font-size: 0.95rem !important; /* 1.1rem -> 0.95rem (살짝 축소) */
+                line-height: 1.5;
+                font-weight: 400;             /* 본문은 조금 더 얇게 해서 제목과 구분 */
+            }
+
+            /* 4. 타임라인 간격 조절: 박스가 작아진 만큼 상하 간격도 조정 */
+            .timeline-item {
+                margin-bottom: 2.5rem !important; 
             }
 
             /* 기타 모바일 스타일 */
