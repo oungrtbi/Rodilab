@@ -294,7 +294,7 @@
             padding: 4rem 2rem;
         }
 
-        /* 타임라인 섹션 배경 (선명도 개선) */
+        /* 타임라인 섹션 배경 */
         .timeline-section {
             position: relative;
             padding: 4rem 2rem;
@@ -306,8 +306,7 @@
         .timeline-section::before {
             content: '';
             position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            /* 배경 이미지가 더 잘 보이도록 불투명도를 0.88 -> 0.5로 낮춤 */
-            background: rgba(255, 255, 255, 0.5); 
+            background: rgba(255, 255, 255, 0.88);
             z-index: 0;
         }
 
@@ -336,26 +335,24 @@
 
         .timeline-item {
             display: flex; justify-content: space-between; align-items: center;
-            width: 100%; margin-bottom: 4rem; position: relative; z-index: 1; min-height: 100px;
+            width: 100%; margin-bottom: 4rem; position: relative; z-index: 1; min-height: 120px;
         }
         .timeline-item.left { flex-direction: row; }
         .timeline-item.right { flex-direction: row-reverse; }
 
-        .timeline-content-wrapper { width: 40%; flex: 1; } /* 너비 소폭 축소 */
-        .timeline-spacer { width: 40%; flex: 1; }
+        .timeline-content-wrapper { width: 45%; flex: 1; }
+        .timeline-spacer { width: 45%; flex: 1; }
         .timeline-dot-wrapper {
             width: 10%; display: flex; justify-content: center; align-items: center;
-            position: static; z-index: 10; min-height: 100px;
+            position: static; z-index: 10; min-height: 120px;
         }
 
         .timeline-item.left .timeline-content-wrapper { text-align: right; padding-right: 2rem; }
         .timeline-item.right .timeline-content-wrapper { text-align: left; padding-left: 2rem; }
 
-        /* 상자 크기 축소: 패팅 및 글씨 크기 조정 */
         .timeline-content {
-            background: rgba(255, 255, 255, 0.92);
-            padding: 1.2rem 1.5rem; /* 패딩 축소 */
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem; border-radius: 12px;
             box-shadow: 0 4px 12px rgba(48, 123, 82, 0.15);
             border: 2px solid #307B52;
             display: inline-block; width: 100%; text-align: left;
@@ -363,7 +360,7 @@
         }
 
         .timeline-dot {
-            width: 24px; height: 24px; background: #307B52;
+            width: 28px; height: 28px; background: #307B52;
             border: 4px solid white; border-radius: 50%;
             box-shadow: 0 0 0 3px #307B52; position: absolute; z-index: 20;
             left: 50%; top: 50%; transform: translate(-50%, -50%);
@@ -380,9 +377,9 @@
             50% { transform: translate(-50%, -50%) scale(1.15); }
         }
 
-        .timeline-date { color: #307B52; font-size: 1.2rem; margin-bottom: 0.3rem; font-weight: 700; } /* 글자 크기 축소 */
-        .timeline-title { color: #333; font-size: 1.15rem; margin-bottom: 0.7rem; font-weight: 600; } /* 글자 크기 축소 */
-        .timeline-description { color: #222; line-height: 1.5; font-weight: 500; font-size: 0.95rem; } /* 글자 크기 축소 */
+        .timeline-date { color: #307B52; font-size: 1.65rem; margin-bottom: 0.5rem; font-weight: 700; }
+        .timeline-title { color: #333; font-size: 1.55rem; margin-bottom: 1rem; font-weight: 600; }
+        .timeline-description { color: #222; line-height: 1.65; font-weight: 500; font-size: 1.1rem; }
 
         /* 통계 섹션 */
         .stats-section {
@@ -411,7 +408,7 @@
         .stat-label { color: #307B52; font-size: 1.1rem; font-weight: 600; margin-bottom: 0.3rem; }
         .stat-desc { color: #666; font-size: 0.95rem; }
 
-        /* 수상 내역 그리드 */
+        /* 수상 내역 그리드 (클래스 추가됨) */
         .awards-grid {
             display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem;
         }
@@ -438,17 +435,18 @@
             .nav-center { display: none; }
             .hamburger { display: flex; }
 
+            /* --- 타임라인 모바일 레이아웃 수정 --- */
             .timeline-line { 
-                left: 50%;
+                left: 50%; /* 선을 다시 중앙으로 */
                 top: 0;
                 bottom: 0;
                 opacity: 0.5;
             }
 
             .timeline-item, .timeline-item.left, .timeline-item.right {
-                flex-direction: column !important;
+                flex-direction: column !important; /* 세로 방향으로 */
                 align-items: center !important;
-                margin-bottom: 3rem;
+                margin-bottom: 2.5rem; /* 간격 소폭 축소 */
                 padding: 0.1rem
             }
 
@@ -457,30 +455,45 @@
             }
 
             .timeline-content-wrapper {
-                width: 100% !important;
-                max-width: 350px; /* 모바일 카드 너비 소폭 축소 */
+                width: 90% !important; /* 카드가 화면을 적절히 채우도록 */
+                max-width: 340px; /* 상자 전체 크기 제한 */
                 padding: 0 !important;
-                text-align: center !important;
+                text-align: center !important; /* 텍스트 중앙 정렬 */
             }
 
             .timeline-content {
-                background: rgba(255,255,255,0.85); /* 모바일에서도 사진이 더 비치게 조절 */
-                text-align: center !important;
+                background: rgba(255, 255, 255, 0.85); /* PC보다 더 투명하게 해서 배경 노출 */
+                padding: 1.2rem; /* 내부 여백 축소 */
+                border: 1.5px solid #307B52;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                text-align: center !important; /* 내부 텍스트도 중앙 */
             }
+
+            /* 모바일 전용 폰트 크기 축소 */
+            .timeline-date { font-size: 1.1rem; margin-bottom: 0.3rem; }
+            .timeline-title { font-size: 1rem; margin-bottom: 0.5rem; }
+            .timeline-description { font-size: 0.85rem; line-height: 1.4; }
 
             .timeline-spacer { display: none; }
 
+            /* 배경 선명도 개선 */
             .timeline-section { 
-                background-attachment: scroll;
-                padding: 3rem 1rem;
+                background-attachment: scroll; /* 모바일 성능을 위해 고정 해제 */
+                padding: 2.5rem 1rem;
             }
             .timeline-section::before {
-                background: rgba(255, 255, 255, 0.6); /* 모바일 배경 가독성 유지하며 사진 노출 */
+                background: rgba(255, 255, 255, 0.6); /* 0.92 -> 0.6으로 변경하여 사진이 훨씬 선명하게 보임 */
             }
 
+            /* 기타 모바일 스타일 */
             .page-header h1 { font-size: 2.2rem; }
             .page-header p { font-size: 1rem; }
             .stats-grid, .awards-grid, .footer-content { grid-template-columns: 1fr !important; }
+
+            /* 모바일에서 수상 내역도 1줄로 */
+            .awards-grid { grid-template-columns: 1fr !important; }
+            .footer-content { grid-template-columns: 1fr !important; }
+            .timeline-section { background-attachment: scroll; }
 
             br.mob-only { display: block; }
             br.pc-only { display: none; }
@@ -567,7 +580,7 @@
 
     <div class="section">
         <div class="stats-section fade-in-up">
-            <h2 style="text-align: center; color: #307B52; font-size: 1.8rem; margin-bottom: 0.5rem;">지금까지의 성과</h2>
+            <h2 style="text-align: center; color: #307B52; font-size: 2rem; margin-bottom: 0.5rem;">지금까지의 성과</h2>
             <p style="text-align: center; color: #666; margin-bottom: 1rem;">숫자로 보는 로디랩의 임팩트</p>
             <div class="stats-grid">
                 <div class="stat-card fade-in-up">
@@ -588,7 +601,7 @@
             </div>
         </div>
 
-        <h2 class="fade-in-up" style="text-align: center; color: #307B52; font-size: 1.8rem; margin-bottom: 3rem;">활동 타임라인</h2>
+        <h2 class="fade-in-up" style="text-align: center; color: #307B52; font-size: 2rem; margin-bottom: 3rem;">활동 타임라인</h2>
         
         <div class="timeline-section bg-1">
             <div class="timeline-section-content">
@@ -601,7 +614,7 @@
                                 <div class="timeline-date">2024년 겨울</div>
                                 <div class="timeline-title">팀 결성 및 사업 기획</div>
                                 <div class="timeline-description">
-                                    가천대학교 인액터스 소속 학생들이 모여 시니어 디지털 격차 문제를 해결하기 위한 로디랩 프로젝트를 시작했습니다.
+                                    가천대학교 인액터스 소속 학생들이 모여 <br>시니어 디지털 격차 문제를 해결하기 위한 로디랩 <br>프로젝트를 시작했습니다.
                                 </div>
                             </div>
                         </div>
@@ -617,7 +630,9 @@
                                 <div class="timeline-date">2025년 2월</div>
                                 <div class="timeline-title">무료 교육 테스트</div>
                                 <div class="timeline-description">
-                                    성남 산성복지관, 마크뷰경로당에서 첫 교육 프로그램을 시작했습니다. "가장 효과적인 교육이다" 등의 긍정적인 반응을 얻었습니다.
+                                    성남 산성복지관, 마크뷰경로당에서 첫 교육 프로그램을 <br>시작했습니다. 
+                                    "스마트폰 관련 가장 효과적인 교육이다."<br>
+                                    등의 긍정적인 반응을 얻을 수 있었습니다.
                                 </div>
                             </div>
                         </div>
@@ -641,7 +656,8 @@
                                 <div class="timeline-date">2025년 4월</div>
                                 <div class="timeline-title">교육 프로그램 확대</div>
                                 <div class="timeline-description">
-                                    기초반, 심화반으로 커리큘럼을 세분화하고, 두 번째 무료 교육을 위한 준비를 진행했습니다.
+                                    기초반, 심화반으로 커리큘럼을 세분화하고, <br>
+                                    두 번째 무료 교육을 위한 준비를 진행했습니다.
                                 </div>
                             </div>
                         </div>
@@ -657,7 +673,8 @@
                                 <div class="timeline-date">2025년 상반기</div>
                                 <div class="timeline-title">50명 누적 교육 달성</div>
                                 <div class="timeline-description">
-                                    무료 교육 수강생 50명을 기록했습니다. 평균 디지털 역량 2.5단계 향상이라는 성과를 기록했습니다.
+                                    무료 교육 서비스 수강생을 50명 기록했습니다.<br>
+                                    평균 디지털 역량 2.5단계(250%) 향상이라는 성과를 <br>기록했습니다.
                                 </div>
                             </div>
                         </div>
@@ -681,7 +698,9 @@
                                 <div class="timeline-date">2025년 10월</div>
                                 <div class="timeline-title">정식 서비스 런칭</div>
                                 <div class="timeline-description">
-                                    로디랩의 서비스가 정식 런칭되었습니다. 런칭 한 달 만에 4명의 고객을 확보하며 성장하고 있습니다.
+                                    25년 10월, 로디랩의 서비스가 정식으로 런칭되었습니다.
+                                    <br>서비스 런칭 이후 한 달만에 4명의 고객을 확보했고, 
+                                    <br>계속해서 고객을 유치하고 있습니다.
                                 </div>
                             </div>
                         </div>
@@ -693,11 +712,12 @@
 
                     <div class="timeline-item right fade-in-up">
                         <div class="timeline-content-wrapper">
-                            <div class="timeline-content" style="background: rgba(48, 123, 82, 0.85); color: white; border: 2px solid #55A759;">
+                            <div class="timeline-content" style="background: rgba(48, 123, 82, 0.92); color: white; border: 2px solid #55A759;">
                                 <div class="timeline-date" style="color: #fff;">현재 진행중</div>
                                 <div class="timeline-title" style="color: white;">지속적인 교육 확대와 성장</div>
-                                <div class="timeline-description" style="color: rgba(255,255,255,0.95);">
-                                    지역별 맞춤화 교육을 진행 중이며, 교육 피드백을 통해 즉각적인 고도화를 진행하고 있습니다.
+                                <div class="timeline-description" style="color: rgba(255,255,255,0.9);">
+                                    다양한 지역으로 개인 맞춤화 교육을 나가고 있으며,<br> 교육 피드백을 통해 즉각적인 디벨롭을 진행하고 있습니다.
+                                    또한, 더 많은 복지관의 협업을 기획하고 있습니다.
                                 </div>
                             </div>
                         </div>
@@ -713,23 +733,23 @@
 
     <div class="section fade-in-up">
         <div style="margin-top: 2rem; padding: 2.5rem; background: linear-gradient(135deg, rgba(48, 123, 82, 0.05) 0%, rgba(85, 167, 89, 0.05) 100%); border-radius: 16px; border: 1px solid rgba(48, 123, 82, 0.2);">
-            <h3 style="color: #307B52; font-size: 1.6rem; margin-bottom: 2rem; text-align: center;">🏆 수상 및 인증</h3>
+            <h3 style="color: #307B52; font-size: 1.8rem; margin-bottom: 2rem; text-align: center;">🏆 수상 및 인증</h3>
             <div class="awards-grid">
-                <div class="fade-in-up" style="padding: 1.2rem; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(48, 123, 82, 0.08); border-left: 4px solid #307B52;">
-                    <h4 style="color: #307B52; margin-bottom: 0.3rem; font-size: 1.05rem;">✅ 현대해상 씨앗 지원사업</h4>
-                    <p style="color: #666; font-size: 0.9rem;">피칭 대회 준우승</p>
+                <div class="fade-in-up" style="padding: 1.5rem; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(48, 123, 82, 0.08); border-left: 4px solid #307B52;">
+                    <h4 style="color: #307B52; margin-bottom: 0.5rem;">✅ 현대해상 씨앗 지원사업</h4>
+                    <p style="color: #666;">피칭 대회 준우승</p>
                 </div>
-                <div class="fade-in-up" style="padding: 1.2rem; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(48, 123, 82, 0.08); border-left: 4px solid #55A759;">
-                    <h4 style="color: #307B52; margin-bottom: 0.3rem; font-size: 1.05rem;">✅ 하나소셜벤처 유니버시티</h4>
-                    <p style="color: #666; font-size: 0.9rem;">소셜벤처 육성 프로그램 선정</p>
+                <div class="fade-in-up" style="padding: 1.5rem; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(48, 123, 82, 0.08); border-left: 4px solid #55A759;">
+                    <h4 style="color: #307B52; margin-bottom: 0.5rem;">✅ 하나소셜벤처 유니버시티</h4>
+                    <p style="color: #666;">소셜벤처 육성 프로그램 선정</p>
                 </div>
-                <div class="fade-in-up" style="padding: 1.2rem; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(48, 123, 82, 0.08); border-left: 4px solid #307B52;">
-                    <h4 style="color: #307B52; margin-bottom: 0.3rem; font-size: 1.05rem;">✅ 스타트업 영그라운드</h4>
-                    <p style="color: #666; font-size: 0.9rem;">청년 창업 우수 스타트업 선정</p>
+                <div class="fade-in-up" style="padding: 1.5rem; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(48, 123, 82, 0.08); border-left: 4px solid #307B52;">
+                    <h4 style="color: #307B52; margin-bottom: 0.5rem;">✅ 스타트업 영그라운드</h4>
+                    <p style="color: #666;">청년 창업 우수 스타트업 선정</p>
                 </div>
-                <div class="fade-in-up" style="padding: 1.2rem; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(48, 123, 82, 0.08); border-left: 4px solid #55A759;">
-                    <h4 style="color: #307B52; margin-bottom: 0.3rem; font-size: 1.05rem;">✅ 인액터스 국내대회</h4>
-                    <p style="color: #666; font-size: 0.9rem;">Rising Star Awards 선정</p>
+                <div class="fade-in-up" style="padding: 1.5rem; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(48, 123, 82, 0.08); border-left: 4px solid #55A759;">
+                    <h4 style="color: #307B52; margin-bottom: 0.5rem;">✅ 인액터스 국내대회</h4>
+                    <p style="color: #666;">Rising Star Awards 선정</p>
                 </div>
             </div>
         </div>
@@ -789,7 +809,7 @@
 
         // ===== 스크롤 애니메이션 스크립트 =====
         const observerOptions = {
-            threshold: 0.1,
+            threshold: 0.1, // 요소가 10% 정도 보이면 트리거
             rootMargin: '0px 0px -50px 0px'
         };
 
