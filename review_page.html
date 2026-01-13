@@ -416,13 +416,22 @@
             display: block;
         }
 
+        /* 기존 CSS 하단부의 미디어 쿼리를 아래 내용으로 교체하세요 */
         @media (max-width: 768px) {
             .nav-center { display: none; }
             .hamburger { display: flex; }
+    
+            /* 리뷰 그리드 수정: 한 줄에 1개씩 보이도록 변경 */
             .review-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: 1fr; /* 2fr에서 1fr로 변경 */
                 gap: 20px;
             }
+
+            /* 모바일에서 카드의 가독성을 위해 높이를 소폭 조정 (선택 사항) */
+            .review-card {
+                height: 280px; 
+            }
+
             .page-header h1 { font-size: 2rem; }
             .page-header p { font-size: 1rem; }
             .footer-content { grid-template-columns: 1fr; }
