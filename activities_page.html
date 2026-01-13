@@ -318,9 +318,9 @@
             margin: 0 auto;
         }
 
-        .timeline-section.bg-1 { background-image: url('./images/act_timeline_1.JPG'); }
-        .timeline-section.bg-2 { background-image: url('./images/bra_brand_1.JPG'); }
-        .timeline-section.bg-3 { background-image: url('./images/bra_brand_2.JPG'); }
+        .timeline-section.bg-1 { background-image: url('./images/act_timeline_1.jpg'); }
+        .timeline-section.bg-2 { background-image: url('./images/bra_brand_1.jpg'); }
+        .timeline-section.bg-3 { background-image: url('./images/bra_brand_2.jpg'); }
 
         /* 타임라인 */
         .timeline-container {
@@ -436,53 +436,40 @@
             .nav-center { display: none; }
             .hamburger { display: flex; }
 
-            /* 1. 타임라인 선을 더 진하고 선명하게 수정 */
+            /* --- 타임라인 모바일 레이아웃 수정 --- */
             .timeline-line { 
-                left: 50%;
-                transform: translateX(-50%);
+                left: 50%; /* 선을 다시 중앙으로 */
                 top: 0;
                 bottom: 0;
-                width: 3px; /* 선 굵기 유지 */
-                background: #307B52; /* 그라데이션 대신 단색으로 진하게 변경 */
-                opacity: 1 !important; /* 투명도 제거하여 선명하게 표시 */
-                z-index: 0;
+                opacity: 0.5;
             }
 
-            /* 2. 박스를 선 기준 정중앙으로 배치 */
             .timeline-item, .timeline-item.left, .timeline-item.right {
-                display: flex !important;
-                flex-direction: column !important;
-                align-items: center !important; /* 가로축 중앙 정렬 */
-                justify-content: center !important;
-                width: 100% !important;
-                margin-bottom: 3rem !important;
-                padding: 0 !important;
+                flex-direction: column !important; /* 세로 방향으로 */
+                align-items: center !important;
+                margin-bottom: 4rem;
+                padding: 0.1rem
             }
 
-            /* 박스 너비 및 여백 설정 */
+            .timeline-dot-wrapper {
+                display: none !important;
+            }
+
             .timeline-content-wrapper {
-                width: 85% !important;
-                max-width: 340px; 
-                margin: 0 auto !important;
-                z-index: 1; /* 선보다 위로 오도록 설정 */
+                width: 100% !important; /* 카드가 화면을 거의 다 채우도록 */
+                max-width: 400px;
+                padding: 0 !important;
+                text-align: center !important; /* 텍스트 중앙 정렬 */
             }
 
             .timeline-content {
-                padding: 1.2rem;
-                background: rgba(255, 255, 255, 1) !important; /* 박스 배경을 불투명하게 하여 선과 겹쳐도 잘 보이게 함 */
-                border: 2px solid #307B52;
-                border-radius: 10px;
+                background: rgba(255,255,255,0.95);
+                border: 1.5px solid #307B52;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                text-align: center !important; /* 내부 텍스트도 중앙 */
             }
 
-            /* 필요 없는 요소 제거 */
-            .timeline-dot-wrapper, .timeline-spacer { 
-                display: none !important; 
-            }
-
-            /* (이하 기존의 글자 크기 관련 스타일은 그대로 유지됩니다) */
-            .timeline-date { font-size: 1.1rem !important; margin-bottom: 0.3rem;}
-            .timeline-title { font-size: 1.2rem !important; margin-bottom: 0.6rem;}
-            .timeline-description { font-size: 0.95rem !important; line-height: 1.5; font-weight: 400; }
+            .timeline-spacer { display: none; }
 
             /* 배경 가독성 및 효과 */
             .timeline-section { 
@@ -490,7 +477,7 @@
                 padding: 3rem 1rem;
             }
             .timeline-section::before {
-                background: rgba(255, 255, 255, 0.4); /* 배경 이미지가 살짝 더 잘 보이게 조정 */
+                background: rgba(255, 255, 255, 0.92); /* 배경 이미지가 살짝 더 잘 보이게 조정 */
             }
 
             /* 기타 모바일 스타일 */
