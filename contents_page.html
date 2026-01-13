@@ -216,7 +216,14 @@
             justify-content: space-between;
             align-items: center;
         }
-        .mobile-menu-header h3 { color: #307B52; font-size: 1.3rem; margin: 0; }
+        
+        /* [수정됨] 모바일 메뉴 헤더 로고 이미지 스타일 */
+        .mobile-logo-img {
+            height: 40px; /* 로고 크기 조정 (너무 크지 않게 설정) */
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
 
         .close-mobile-menu {
             background: none;
@@ -478,7 +485,7 @@
 
     <div class="mobile-menu" id="mobileMenu">
         <div class="mobile-menu-header">
-            <h3>RODILAB</h3>
+            <img src="./images/logo_1.png" alt="로디랩 로고" class="mobile-logo-img">
             <button class="close-mobile-menu" onclick="closeMobileMenu()">✕</button>
         </div>
         <ul class="mobile-menu-list">
